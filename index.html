@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🎂 ¡Cumpleaños 10 de Emir! — Una Misión de Cristal</title>
+  <meta property="og:title" content="¡Cumpleaños 10 de Emir! 🎂 Una Misión de Cristal">
+  <meta property="og:description" content="Confirma tu asistencia a la misión estelar. ¡Toca la invitación!">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="./imagenes/emir.png">
+  <meta name="theme-color" content="#7b4fd0">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin:0; padding:0; overflow-x:hidden; }
+    body {
+      font-family:'Nunito', sans-serif;
+      min-height:100vh;
+      background: linear-gradient(180deg, #8fd0ee 0%, #a8c8f0 22%, #cdb9ee 45%, #e8b6e8 70%, #f7c6d9 100%);
+      color:#3d2a63;
+    }
+    .title-font { font-family:'Fredoka One', cursive; }
+
+    /* ============ ANIMACIONES ============ */
+    @keyframes twinkle { 0%,100%{opacity:.2; transform:scale(.7) rotate(0deg);} 50%{opacity:1; transform:scale(1.25) rotate(20deg);} }
+    @keyframes drift { 0%{transform:translateY(105vh) rotate(0deg);} 100%{transform:translateY(-15vh) rotate(340deg);} }
+    @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);} }
+    @keyframes floatGem { 0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-25px) rotate(180deg);} 100%{transform:translateY(0) rotate(360deg);} }
+    
+    /* Animaciones del Escenario de Batalla */
+    @keyframes heroBounce { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.02); } }
+    @keyframes allySwing { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-4deg) translateY(-5px); } }
+    @keyframes swordFloat { 0%,100% { transform: translateX(-50%) translateY(0) rotate(0deg); } 50% { transform: translateX(-50%) translateY(-20px) rotate(15deg); } }
+    @keyframes shieldSpin { from { transform: translateX(-50%) rotate(0deg); } to { transform: translateX(-50%) rotate(360deg); } }
+    
+    @keyframes jumpAttack { 0%{transform:translateY(0) scale(1);} 25%{transform:translateY(-46px) scale(1.05);} 55%{transform:translateY(6px) scale(.97);} 75%{transform:translateY(-12px);} 100%{transform:translateY(0) scale(1);} }
+    @keyframes energyWave { 0%{transform:translateX(-50%) scaleY(.4); opacity:0;} 20%{opacity:.85;} 100%{transform:translateX(-50%) scaleY(1.6); opacity:0;} }
+    @keyframes zap { 0%{opacity:0;} 12%{opacity:.9;} 24%{opacity:.15;} 38%{opacity:.8;} 55%{opacity:0;} 100%{opacity:0;} }
+    @keyframes gemBounce { 0%,100%{transform:translateY(0) scale(1); filter:drop-shadow(0 0 12px #ff9ad5);} 50%{transform:translateY(-9px) scale(1.06); filter:drop-shadow(0 0 30px #ff4fb0);} }
+    @keyframes ringPulse { 0%,100%{transform:scale(1); opacity:.55;} 50%{transform:scale(1.06); opacity:.9;} }
+    @keyframes portalSpin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+    @keyframes particleFly { 0%{transform:translate(0,0) scale(1); opacity:1;} 100%{transform:translate(var(--tx),var(--ty)) scale(0); opacity:0;} }
+    @keyframes enterFromBottom { from{opacity:0; transform:translateY(60px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes shatterGlass { 0%{transform:scale(1); opacity:1; filter:brightness(1);} 30%{transform:scale(1.22); opacity:.9; filter:brightness(3);} 100%{transform:scale(1.9); opacity:0; filter:brightness(5);} }
+    @keyframes shake { 0%,100%{transform:translate(0,0);} 20%{transform:translate(-5px,2px);} 40%{transform:translate(5px,-2px);} 60%{transform:translate(-4px,-2px);} 80%{transform:translate(4px,2px);} }
+    @keyframes tapFinger { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-14px,-8px) scale(.94);} }
+    @keyframes glowTitle { 0%,100%{filter:drop-shadow(0 3px 0 #7b4fd0) drop-shadow(0 0 8px rgba(255,255,255,.7));} 50%{filter:drop-shadow(0 3px 0 #7b4fd0) drop-shadow(0 0 22px rgba(255,236,140,.95));} }
+
+    /* ============ FONDO DINÁMICO Y ESCENARIO ============ */
+    .sky-star { position:fixed; color:#fff; pointer-events:none; z-index:1; animation:twinkle 2.6s ease-in-out infinite; text-shadow:0 0 8px #fff; }
+    .shard { position:fixed; pointer-events:none; z-index:1; opacity:.55; animation:drift linear infinite; }
+    .bubble-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:1;
+      background:radial-gradient(circle at 32% 30%, rgba(255,255,255,.85), rgba(190,120,230,.35) 55%, rgba(120,60,190,.15));
+      box-shadow: inset -6px -8px 14px rgba(120,40,160,.25), 0 0 18px rgba(255,255,255,.4);
+      animation:drift linear infinite; }
+    
+    .floating-gem { position:fixed; z-index:1; pointer-events:none; animation:floatGem linear infinite; filter:drop-shadow(0 0 8px rgba(255,255,255,.8)); opacity:.6; }
+    .floating-gem img { width:100%; height:100%; object-fit:contain; }
+
+    /* Escenario de Batalla (Personajes y Objetos) */
+    #battle-stage {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 48vh;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .stage-element {
+      position: absolute;
+      filter: drop-shadow(0 10px 15px rgba(60,20,90,0.4));
+      transition: transform 0.5s ease;
+    }
+    
+    /* Emir (Izquierda) */
+    #stage-emir {
+      left: 2vw;
+      bottom: 5vh;
+      width: 110px;
+      animation: heroBounce 3s infinite ease-in-out;
+    }
+    
+    /* Steven (Derecha) */
+    #stage-steven {
+      right: 2vw;
+      bottom: 5vh;
+      width: 120px;
+      animation: allySwing 4s infinite ease-in-out;
+    }
+
+    /* Espada (Centro - Arriba) */
+    #stage-sword {
+      left: 50%;
+      transform: translateX(-50%);
+      top: 8vh;
+      width: 90px;
+      animation: swordFloat 5s infinite ease-in-out;
+    }
+
+    /* Escudo (Centro - Abajo) */
+    #stage-shield {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 15vh;
+      width: 80px;
+      animation: shieldSpin 8s infinite linear;
+    }
+
+    /* Efectos de ataque */
+    .stage-element.attack { animation: jumpAttack .8s ease-out !important; }
+    .stage-element.attack-swing { animation: allySwing .8s ease-out !important; }
+
+    /* Ondas de energía de batalla */
+    .energy-wave { position:fixed; left:50%; width:130vw; height:70px; pointer-events:none; z-index:3;
+      background:linear-gradient(90deg, transparent, rgba(255,120,220,.75), rgba(140,220,255,.75), transparent);
+      border-radius:50%; filter:blur(6px); animation:energyWave 1.6s ease-out forwards; }
+
+    /* Rayo mágico */
+    .zap-line { position:fixed; width:5px; background:linear-gradient(180deg,#fff,#b388ff); border-radius:4px;
+      box-shadow:0 0 16px #b388ff; pointer-events:none; z-index:3; animation:zap .9s ease-out forwards; }
+
+    /* ============ ESTRUCTURA PRINCIPAL ============ */
+    .invitation-wrapper { position:relative; width:100%; max-width:440px; margin:0 auto; padding:14px 14px 46px; display:flex; flex-direction:column; align-items:center; z-index:10; }
+
+    /* Barra superior: ubicación */
+    .location-bar {
+      width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background:linear-gradient(135deg, rgba(255,255,255,.92), rgba(216,200,255,.92));
+      border:3px solid #fff; border-radius:18px; padding:10px 14px;
+      box-shadow:0 6px 18px rgba(90,50,150,.35), inset 0 0 18px rgba(255,255,255,.8);
+      z-index:30; animation:floaty 4s ease-in-out infinite;
+    }
+    .location-bar .place { font-family:'Fredoka One', cursive; font-size:1.05rem; color:#5e35b1; display:flex; align-items:center; gap:8px; }
+    .location-bar a { font-family:'Fredoka One', cursive; font-size:.85rem; color:#fff; background:linear-gradient(135deg,#ec4899,#8b5cf6);
+      padding:8px 13px; border-radius:12px; text-decoration:none; border:2px solid #fff; white-space:nowrap;
+      box-shadow:0 3px 0 rgba(94,53,177,.5); }
+    .location-bar a:active { transform:translateY(3px); box-shadow:none; }
+
+    /* Polaroids */
+    .polaroid { background:#fff; padding:6px 6px 18px 6px; box-shadow:5px 5px 14px rgba(60,20,90,.35); border-radius:5px;
+      width:104px; position:absolute; animation:floaty 4s ease-in-out infinite; z-index:22; }
+    .polaroid img { width:100%; height:82px; object-fit:contain; display:block; border-radius:3px; background:#fce4ec; }
+    .polaroid p { font-family:'Fredoka One', cursive; font-size:10px; color:#4a148c; text-align:center; margin:5px 0 0; }
+    .p1 { top:70px; left:-8px; transform:rotate(-9deg); }
+    .p2 { top:96px; right:-10px; transform:rotate(7deg); animation-delay:1s; width:112px; }
+
+    /* Anillo rosa detrás de la tarjeta */
+    .pink-ring { position:absolute; top:150px; left:50%; transform:translateX(-50%); width:330px; height:330px; border-radius:50%;
+      border:14px solid rgba(255,150,205,.5); box-shadow:0 0 40px rgba(255,120,200,.5), inset 0 0 40px rgba(255,120,200,.35);
+      z-index:12; animation:ringPulse 3.5s ease-in-out infinite; }
+
+    /* Tarjeta */
+    .crystal-card { position:relative; width:100%; margin-top:96px; z-index:20;
+      background:linear-gradient(165deg, rgba(255,255,255,.65), rgba(255,205,235,.7) 45%, rgba(214,190,255,.75));
+      border:4px solid rgba(255,255,255,.95); border-radius:30px;
+      padding:20px 18px 26px;
+      box-shadow:0 18px 44px rgba(90,40,150,.4), inset 0 0 30px rgba(255,255,255,.5);
+      backdrop-filter:blur(6px);
+      display:flex; flex-direction:column; align-items:center; text-align:center;
+    }
+    .crystal-card.shake { animation:shake .5s; }
+
+    /* Título estilo cómic */
+    .main-title {
+      font-family:'Fredoka One', cursive; line-height:1.04; margin:4px 0 2px;
+      font-size:clamp(2rem, 9vw, 2.6rem); letter-spacing:.5px;
+      color:#fff; -webkit-text-stroke:2px #7b4fd0;
+      text-shadow:0 4px 0 #7b4fd0, 0 8px 14px rgba(80,30,140,.4);
+      animation:glowTitle 3s ease-in-out infinite;
+    }
+    .main-title .num { color:#ffd6ea; }
+    .subtitle { font-family:'Fredoka One', cursive; font-size:1.15rem; color:#5e35b1; margin:2px 0 14px;
+      text-shadow:0 2px 0 rgba(255,255,255,.8); letter-spacing:1px; }
+
+    .form-label { font-family:'Fredoka One', cursive; color:#4a2b86; font-size:1.02rem; text-align:left; width:100%; margin:0 0 6px 4px; }
+
+    /* Input cristalizado */
+    .input-wrap { position:relative; width:100%; margin-bottom:16px; }
+    .form-input {
+      width:100%; padding:14px 46px 14px 16px; border-radius:14px;
+      border:3px solid #b39ddb;
+      background-color:rgba(255,255,255,.94);
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='46' viewBox='0 0 120 46'%3E%3Cg stroke='%23e3b8dd' stroke-width='1.4' fill='none' opacity='.8'%3E%3Cpath d='M8 40 L26 24 L20 8 M26 24 L44 30 L58 14 M44 30 L40 44 M58 14 L76 22 L92 6 M76 22 L74 40 M92 6 L104 20 L118 12 M104 20 L110 38'/%3E%3C/g%3E%3C/svg%3E");
+      font-family:'Nunito', sans-serif; font-size:1.05rem; font-weight:800; color:#4a2b86; outline:none;
+      box-shadow:inset 0 3px 8px rgba(94,53,177,.22), 0 4px 0 rgba(123,79,208,.35);
+    }
+    .form-input:focus { border-color:#ff69b4; background-color:#fff; }
+    .tap-hand { position:absolute; right:6px; top:50%; transform:translateY(-50%); font-size:30px; animation:tapFinger 1.4s ease-in-out infinite; pointer-events:none; filter:drop-shadow(2px 3px 3px rgba(60,20,90,.4)); }
+
+    /* Contadores (Adultos y Niños) */
+    .counters-container { display:flex; justify-content:space-around; width:100%; margin-bottom:12px; gap:10px; }
+    .counter-group { display:flex; flex-direction:column; align-items:center; flex:1; }
+    .gem-counter { display:flex; align-items:center; background:linear-gradient(135deg,#eaf6ff,#d3e9ff); border:3px solid #90caf9; border-radius:12px; overflow:hidden; box-shadow:0 4px 0 rgba(66,133,205,.4); margin-top:5px; width:100%; justify-content:center; }
+    .gem-num { font-family:'Fredoka One', cursive; font-size:1.5rem; color:#1565c0; width:42px; text-align:center; }
+    .gem-arrows { display:flex; flex-direction:column; }
+    .gem-arrow { background:#90caf9; color:#0d47a1; font-size:12px; line-height:1; padding:5px 9px; cursor:pointer; user-select:none; font-weight:900; }
+    .gem-arrow:active { background:#64b5f6; }
+    
+    /* Fila de Gemas visuales */
+    .gems-row { display:flex; justify-content:center; gap:5px; flex-wrap:wrap; width:100%; margin-bottom:18px; }
+    .gem-dot { width:24px; height:24px; cursor:pointer; transition:transform .2s, filter .2s; }
+    .gem-dot img { width:100%; height:100%; object-fit:contain; }
+    
+    /* Filtros para las gemas (Azul para adultos, Rosa para niños) */
+    .gem-dot.lit-adult { transform:scale(1.15); filter: hue-rotate(180deg) saturate(1.5) drop-shadow(0 0 6px #64b5f6); }
+    .gem-dot.lit-kid { transform:scale(1.15); filter: hue-rotate(0deg) saturate(1.5) drop-shadow(0 0 6px #ff80ab); }
+    .gem-dot.unlit { opacity: 0.4; filter: grayscale(0.8); }
+
+    /* Botones estilo panel de cristal celeste */
+    .btn-crystal {
+      width:100%; display:flex; align-items:center; gap:12px;
+      background:linear-gradient(135deg,#dff2ff 0%,#bfe3ff 55%,#a9d4ff 100%);
+      border:3px solid #6fa8e8; border-radius:16px;
+      padding:11px 14px; cursor:pointer; text-align:left;
+      box-shadow:0 5px 0 rgba(66,120,200,.55), 0 10px 20px rgba(60,60,150,.25), inset 0 2px 0 rgba(255,255,255,.9);
+      transition:transform .12s, box-shadow .12s;
+      margin-bottom:10px;
+    }
+    .btn-crystal:active { transform:translateY(4px); box-shadow:0 1px 0 rgba(66,120,200,.55); }
+    .btn-icon { flex:0 0 44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      background:radial-gradient(circle at 35% 30%, #5b4a8a, #2c2150); border:2px solid rgba(255,255,255,.7);
+      box-shadow:inset 0 0 10px rgba(0,0,0,.5); }
+    .btn-text { font-family:'Fredoka One', cursive; font-size:1.18rem; color:#1c3f7a; text-shadow:0 1px 0 rgba(255,255,255,.8); }
+    .btn-crystal.no .btn-text { color:#3a3f5e; }
+
+    /* Bola de cristal gigante */
+    .big-orb { width:130px; height:130px; margin-top:20px; position:relative; z-index:21; animation:gemBounce 3s ease-in-out infinite; }
+    .big-orb .orb-ring { position:absolute; inset:-10px; border-radius:50%; border:3px dashed rgba(255,255,255,.85); animation:portalSpin 14s linear infinite; }
+
+    #mensaje-final { margin-top:16px; padding:14px; border-radius:15px; font-weight:800; font-size:1.05rem; width:100%; }
+    .hidden { display:none !important; }
+    .particle { position:fixed; width:10px; height:10px; border-radius:50%; pointer-events:none; z-index:1000; animation:particleFly 1.5s ease-out forwards; }
+
+    .wa-float { position:fixed; bottom:16px; right:14px; z-index:200; width:54px; height:54px; border-radius:50%;
+      background:#25d366; border:3px solid #fff; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 5px 15px rgba(0,0,0,.35); font-size:26px; text-decoration:none; }
+
+    /* Pantalla de inicio */
+    #start-overlay { position:fixed; inset:0; background:radial-gradient(circle at center,#1a0b2e 0%,#000 100%);
+      display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:500; color:#fff; text-align:center; padding:20px; transition:opacity .6s ease-out; }
+    .btn-start { background:linear-gradient(135deg,#ec4899,#8b5cf6); border:none; padding:16px 44px; border-radius:50px;
+      color:#fff; font-size:1.2rem; font-family:'Fredoka One', cursive; cursor:pointer; box-shadow:0 10px 30px rgba(236,72,153,.5); }
+    .btn-start:active { transform:scale(.94); }
+    .gem-start-img { width:150px; height:auto; animation:gemBounce 2s infinite ease-in-out; margin-bottom:25px; }
+
+    @media (max-width:360px) {
+      .polaroid { width:88px; } .polaroid img { height:68px; }
+      #stage-emir { width: 85px; }
+      #stage-steven { width: 95px; }
+      #stage-sword { width: 70px; }
+      #stage-shield { width: 60px; }
+      .gem-dot { width:20px; height:20px; }
+      .btn-text { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bg-music" loop>
+    <source src="./musica/cancion.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- PANTALLA DE INICIO -->
+  <div id="start-overlay">
+    <h1 class="title-font" style="font-size:2.2rem; color:#ff69b4; margin:0 0 6px;">¡Carga tu Gema!</h1>
+    <p style="color:#ce93d8; font-weight:700; letter-spacing:.15em; margin:0 0 24px;">TOCA PARA INICIAR LA MISIÓN</p>
+    <img src="./imagenes/gema.png" class="gem-start-img" alt="Gema">
+    <button onclick="startExperience()" class="btn-start">¡Iniciar Aventura!</button>
+  </div>
+
+  <!-- ESCENARIO DE BATALLA DINÁMICO -->
+  <div id="battle-stage">
+    <img id="stage-emir" class="stage-element" src="./imagenes/emir.png" alt="Emir">
+    <img id="stage-shield" class="stage-element" src="./imagenes/escudo.png" alt="Escudo">
+    <img id="stage-sword" class="stage-element" src="./imagenes/espada.png" alt="Espada">
+    <img id="stage-steven" class="stage-element" src="./imagenes/steven.png" alt="Steven">
+  </div>
+
+  <!-- FONDO DE GEMAS FLOTANTES -->
+  <div id="floating-gems"></div>
+
+  <!-- CONTENIDO -->
+  <div id="invitation-card" class="invitation-wrapper" style="display:none;">
+
+    <!-- Ubicación superior -->
+    <div class="location-bar">
+      <span class="place">🏠 Casa de Emir</span>
+      <a id="map-link" href="#" target="_blank">📍 Ver ubicación ↗</a>
+    </div>
+
+    <!-- Polaroids -->
+    <div class="polaroid p1"><img src="./imagenes/emir.png" alt="Emir"><p>Emir y León</p></div>
+    <div class="polaroid p2"><img src="./imagenes/steven.png" alt="Steven"><p>¡Listo para la aventura!</p></div>
+
+    <div class="pink-ring"></div>
+
+    <!-- Tarjeta -->
+    <div class="crystal-card" id="crystal-card">
+      <h1 class="main-title">¡CUMPLEAÑOS<br><span class="num">10</span> DE EMIR!</h1>
+      <p class="subtitle">¡UNA MISIÓN DE CRISTAL!</p>
+
+      <div id="form-section" style="width:100%;">
+        <label class="form-label">Tu Nombre Estelar (como Gema):</label>
+        <div class="input-wrap">
+          <input type="text" id="nombre" class="form-input" placeholder="Ej. Granate, Perla...">
+          <span class="tap-hand">👆</span>
+        </div>
+
+        <label class="form-label">Acompañantes:</label>
+        <div class="counters-container">
+          <div class="counter-group">
+            <span style="font-family:'Fredoka One', cursive; color:#1565c0; font-size:0.9rem;">Adultos</span>
+            <div class="gem-counter">
+              <span class="gem-num" id="count-adultos">0</span>
+              <div class="gem-arrows">
+                <div class="gem-arrow" onclick="updateCount('adultos', 1)">▲</div>
+                <div class="gem-arrow" onclick="updateCount('adultos', -1)">▼</div>
+              </div>
+            </div>
+          </div>
+          <div class="counter-group">
+            <span style="font-family:'Fredoka One', cursive; color:#d81b60; font-size:0.9rem;">Niños</span>
+            <div class="gem-counter" style="border-color:#f48fb1; background:linear-gradient(135deg,#fce4ec,#f8bbd0);">
+              <span class="gem-num" id="count-ninos" style="color:#c2185b;">0</span>
+              <div class="gem-arrows">
+                <div class="gem-arrow" style="background:#f48fb1; color:#880e4f;" onclick="updateCount('ninos', 1)">▲</div>
+                <div class="gem-arrow" style="background:#f48fb1; color:#880e4f;" onclick="updateCount('ninos', -1)">▼</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Fila de Gemas Visuales -->
+        <div class="gems-row" id="gems-row"></div>
+
+        <label class="form-label">Confirmar Asistencia:</label>
+        <button class="btn-crystal" onclick="confirmarAsistencia(true)">
+          <span class="btn-icon">
+            <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" fill="none" stroke="#ff9ad5" stroke-width="2.4"/><circle cx="13" cy="13" r="5" fill="#ff9ad5"/><circle cx="13" cy="13" r="11.5" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1" stroke-dasharray="3 3"/></svg>
+          </span>
+          <span class="btn-text">¡Sí! Al Portal.</span>
+        </button>
+        <button class="btn-crystal no" onclick="confirmarAsistencia(false)">
+          <span class="btn-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21 C5 16 2 11 5 7 C7.5 4.5 11 6 12 8 C13 6 16.5 4.5 19 7 C22 11 19 16 12 21 Z" fill="#ff6b81"/><path d="M12 4 L12 19 M6.5 8.5 L17.5 15.5" stroke="#2c2150" stroke-width="2" fill="none"/></svg>
+          </span>
+          <span class="btn-text">No podré asistir.</span>
+        </button>
+      </div>
+
+      <div id="mensaje-final" class="hidden"></div>
+    </div>
+
+    <!-- Bola de cristal gigante -->
+    <div class="big-orb">
+      <div class="orb-ring"></div>
+      <img src="./imagenes/gema.png" style="width:100%;height:100%;object-fit:contain;" alt="Gema">
+    </div>
+  </div>
+
+  <a class="wa-float" id="btn-share" href="#">🎉</a>
+
+  <script>
+    /* ============ CONFIGURACIÓN — EDITA AQUÍ ============ */
+    const CONFIG = {
+      // ✅ URL de Google Apps Script INTEGRADA
+      urlAppsScript: "https://script.google.com/macros/s/AKfycbwvQWiIuFLeLDFOFhyaMEJN9VqK8rq0o3Ljvf95KrETzr1dzVO1dUV0RkxeeorB26tR/exec",
+      lat: 17.2220381,
+      lng: -96.8204176,
+      numeroCumple: 10,
+      maxGemas: 10
+    };
+    /* ============ FIN CONFIGURACIÓN ============ */
+
+    let adultos = 0;
+    let ninos = 0;
+
+    window.addEventListener('load', () => {
+      document.getElementById('map-link').href =
+        'https://www.google.com/maps/search/?api=1&query=' + CONFIG.lat + ',' + CONFIG.lng;
+
+      const shareUrl = location.href;
+      const shareText = encodeURIComponent('🎂 ¡Te invito al cumpleaños ' + CONFIG.numeroCumple + ' de Emir! Una Misión de Cristal 💎 Confirma aquí: ' + shareUrl);
+      document.getElementById('btn-share').href = 'https://wa.me/?text=' + shareText;
+
+      buildGemDots();
+      spawnAmbient();
+      spawnFloatingGems();
+      
+      // Iniciar ataques aleatorios en el escenario
+      setInterval(randomAttack, 3500);
+      setInterval(() => spawnEnergyWave(), 5000);
+      setInterval(() => spawnZap(), 6500);
+    });
+
+    /* ---------- Gemas de acompañantes (Usando la imagen real) ---------- */
+    function buildGemDots() {
+      const wrap = document.getElementById('gems-row');
+      wrap.innerHTML = '';
+      for (let i = 1; i <= CONFIG.maxGemas; i++) {
+        const d = document.createElement('div');
+        d.className = 'gem-dot unlit';
+        d.innerHTML = '<img src="./imagenes/gema.png" alt="Gema">';
+        d.onclick = () => {
+          const totalActual = adultos + ninos;
+          if (i > totalActual) {
+            // Sumar a niños por defecto al hacer clic en gema apagada
+            updateCount('ninos', i - totalActual);
+          } else if (i < totalActual) {
+            // Restar primero de niños, luego de adultos
+            let aRestar = totalActual - i;
+            let restarNinos = Math.min(ninos, aRestar);
+            updateCount('ninos', -restarNinos);
+            aRestar -= restarNinos;
+            if (aRestar > 0) updateCount('adultos', -aRestar);
+          }
+        };
+        wrap.appendChild(d);
+      }
+      actualizarGemas();
+    }
+
+    function updateCount(tipo, cambio) {
+      if (tipo === 'adultos') {
+        if (cambio > 0 && (adultos + ninos) >= CONFIG.maxGemas) return;
+        adultos = Math.max(0, adultos + cambio);
+        document.getElementById('count-adultos').innerText = adultos;
+      } else {
+        if (cambio > 0 && (adultos + ninos) >= CONFIG.maxGemas) return;
+        ninos = Math.max(0, ninos + cambio);
+        document.getElementById('count-ninos').innerText = ninos;
+      }
+      actualizarGemas();
+    }
+
+    function actualizarGemas() {
+      const total = adultos + ninos;
+      const gems = document.querySelectorAll('.gem-dot');
+      
+      gems.forEach((gem, index) => {
+        gem.className = 'gem-dot';
+        if (index < adultos) {
+          gem.classList.add('lit-adult'); // Azul para adultos
+        } else if (index < total) {
+          gem.classList.add('lit-kid'); // Rosa para niños
+        } else {
+          gem.classList.add('unlit'); // Apagada
+        }
+      });
+    }
+
+    /* ---------- Fondo dinámico ---------- */
+    function spawnAmbient() {
+      for (let i = 0; i < 18; i++) {
+        const s = document.createElement('div');
+        s.className = 'sky-star'; s.textContent = '✦';
+        s.style.left = Math.random() * 96 + 'vw';
+        s.style.top = Math.random() * 96 + 'vh';
+        s.style.animationDelay = (Math.random() * 2.5) + 's';
+        s.style.fontSize = (7 + Math.random() * 13) + 'px';
+        document.body.appendChild(s);
+      }
+      const shardColors = ['#c9a7f5', '#ff9ad5', '#9be7ff', '#e6ccff'];
+      for (let i = 0; i < 10; i++) {
+        const sh = document.createElement('div');
+        sh.className = 'shard';
+        const size = 10 + Math.random() * 16;
+        sh.style.width = size + 'px'; sh.style.height = size * 1.5 + 'px';
+        sh.style.left = Math.random() * 95 + 'vw';
+        sh.style.background = 'linear-gradient(160deg,' + shardColors[i % 4] + ',#8f6fd8)';
+        sh.style.clipPath = 'polygon(50% 0, 100% 30%, 80% 100%, 20% 100%, 0 30%)';
+        sh.style.animationDuration = (14 + Math.random() * 14) + 's';
+        sh.style.animationDelay = (-Math.random() * 20) + 's';
+        document.body.appendChild(sh);
+      }
+      for (let i = 0; i < 7; i++) {
+        const b = document.createElement('div');
+        b.className = 'bubble-orb';
+        const size = 14 + Math.random() * 26;
+        b.style.width = size + 'px'; b.style.height = size + 'px';
+        b.style.left = Math.random() * 92 + 'vw';
+        b.style.animationDuration = (18 + Math.random() * 16) + 's';
+        b.style.animationDelay = (-Math.random() * 24) + 's';
+        document.body.appendChild(b);
+      }
+    }
+
+    function spawnFloatingGems() {
+      for (let i = 0; i < 12; i++) {
+        const gem = document.createElement('div');
+        gem.className = 'floating-gem';
+        gem.innerHTML = '<img src="./imagenes/gema.png" alt="Gema">';
+        gem.style.left = Math.random() * 95 + 'vw';
+        gem.style.top = Math.random() * 95 + 'vh';
+        gem.style.width = (15 + Math.random() * 20) + 'px';
+        gem.style.height = gem.style.width;
+        gem.style.animationDuration = (10 + Math.random() * 15) + 's';
+        gem.style.animationDelay = (-Math.random() * 20) + 's';
+        document.getElementById('floating-gems').appendChild(gem);
+      }
+    }
+
+    /* ---------- Ataques de los Personajes ---------- */
+    function randomAttack() {
+      const emir = document.getElementById('stage-emir');
+      const steven = document.getElementById('stage-steven');
+      const sword = document.getElementById('stage-sword');
+      const shield = document.getElementById('stage-shield');
+
+      const atacante = Math.random() < 0.5 ? emir : steven;
+      
+      if (atacante === emir) {
+        emir.classList.add('attack');
+        burstAt(emir, 15);
+        setTimeout(() => emir.classList.remove('attack'), 1000);
+      } else {
+        steven.classList.add('attack-swing');
+        burstAt(steven, 15);
+        setTimeout(() => steven.classList.remove('attack-swing'), 1000);
+      }
+
+      sword.style.transform = `translateX(-50%) scale(1.2) rotate(${Math.random() * 45 - 22}deg)`;
+      shield.style.transform = `translateX(-50%) scale(1.2) rotate(${Math.random() * 45 - 22}deg)`;
+      
+      setTimeout(() => {
+        sword.style.transform = 'translateX(-50%)';
+        shield.style.transform = 'translateX(-50%)';
+      }, 500);
+
+      if (Math.random() < 0.5) shakeCard();
+    }
+
+    function spawnEnergyWave() {
+      const w = document.createElement('div');
+      w.className = 'energy-wave';
+      w.style.top = (40 + Math.random() * 30) + 'vh';
+      document.body.appendChild(w);
+      setTimeout(() => w.remove(), 1700);
+    }
+
+    function spawnZap() {
+      const z = document.createElement('div');
+      z.className = 'zap-line';
+      z.style.left = (20 + Math.random() * 60) + 'vw';
+      z.style.top = (10 + Math.random() * 30) + 'vh';
+      z.style.height = (60 + Math.random() * 120) + 'px';
+      z.style.transform = 'rotate(' + (Math.random() * 50 - 25) + 'deg)';
+      document.body.appendChild(z);
+      setTimeout(() => z.remove(), 950);
+    }
+
+    function burstAt(el, n) {
+      const r = el.getBoundingClientRect();
+      for (let i = 0; i < n; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const colores = ['#ff9ad5', '#c9a7f5', '#9be7ff', '#fff3a3'];
+        const color = colores[Math.floor(Math.random() * colores.length)];
+        p.style.left = (r.left + r.width / 2) + 'px';
+        p.style.top = (r.top + r.height / 3) + 'px';
+        p.style.backgroundColor = color; p.style.boxShadow = '0 0 10px ' + color;
+        p.style.setProperty('--tx', (Math.random() - .5) * 200 + 'px');
+        p.style.setProperty('--ty', (Math.random() - .8) * 200 + 'px');
+        const size = Math.random() * 7 + 5;
+        p.style.width = size + 'px'; p.style.height = size + 'px';
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 1500);
+      }
+    }
+
+    function shakeCard() {
+      const c = document.getElementById('crystal-card');
+      c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+      setTimeout(() => c.classList.remove('shake'), 550);
+    }
+
+    /* ---------- Flujo principal ---------- */
+    function startExperience() {
+      const overlay = document.getElementById('start-overlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 600);
+      const audio = document.getElementById('bg-music');
+      if (audio) { audio.volume = 0.55; audio.play().catch(e => console.log('Audio:', e)); }
+      const card = document.getElementById('invitation-card');
+      card.style.display = 'flex';
+      card.classList.add('anim-enter');
+    }
+
+    function confirmarAsistencia(asistira) {
+      const nombre = document.getElementById('nombre').value.trim();
+      if (!nombre) { alert('Por favor, ingresa tu nombre estelar.'); return; }
+
+      document.getElementById('form-section').classList.add('hidden');
+      const mensajeDiv = document.getElementById('mensaje-final');
+      mensajeDiv.classList.remove('hidden');
+
+      if (asistira) {
+        mensajeDiv.style.cssText = 'background:rgba(255,255,255,.95); color:#2e7d32; box-shadow:inset 0 0 20px rgba(46,125,50,.2);';
+        mensajeDiv.innerHTML = '¡MISIÓN CONFIRMADA! 🎉<br>¡Nos vemos en la batalla estelar!';
+        for (let i = 0; i < 35; i++) setTimeout(() => crearParticula(), i * 40);
+        for (let i = 0; i < 3; i++) setTimeout(() => spawnEnergyWave(), i * 350);
+        
+        const emir = document.getElementById('stage-emir');
+        const steven = document.getElementById('stage-steven');
+        emir.style.animation = 'heroBounce 0.5s infinite ease-in-out';
+        steven.style.animation = 'allySwing 0.5s infinite ease-in-out';
+        
+      } else {
+        mensajeDiv.style.cssText = 'background:rgba(255,255,255,.95); color:#c62828; box-shadow:inset 0 0 20px rgba(198,40,40,.2);';
+        mensajeDiv.innerHTML = 'Portal Cerrado 💔<br>¡Te extrañaremos en esta misión!';
+        document.getElementById('crystal-card').style.animation = 'shatterGlass .9s forwards ease-out';
+        for (let i = 0; i < 20; i++) setTimeout(() => crearParticula('#a6c1ee'), i * 30);
+        
+        const emir = document.getElementById('stage-emir');
+        const shield = document.getElementById('stage-shield');
+        emir.style.transform = 'translateY(20px) scale(0.9) rotate(-10deg)';
+        shield.style.animation = 'shatterGlass 0.8s forwards ease-out';
+      }
+
+      // Enviamos los datos a Google Sheets usando la URL configurada
+      if (CONFIG.urlAppsScript && CONFIG.urlAppsScript !== 'TU_URL_DE_APPS_SCRIPT_AQUI') {
+        const datos = { 
+          nombre: nombre, 
+          adultos: adultos, 
+          ninos: ninos, 
+          asistira: asistira ? 'Sí' : 'No', 
+          fecha: new Date().toLocaleString('es-MX') 
+        };
+        fetch(CONFIG.urlAppsScript, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(datos) })
+          .then(() => console.log('✅ Datos enviados a Google Sheets'))
+          .catch(err => console.error('Error al enviar:', err));
+      }
+    }
+
+    function crearParticula(colorForzado) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const colores = ['#ec4899', '#8b5cf6', '#fbbf24', '#34d399', '#60a5fa'];
+      const color = colorForzado || colores[Math.floor(Math.random() * colores.length)];
+      p.style.left = (window.innerWidth / 2) + 'px';
+      p.style.top = (window.innerHeight / 2 - 50) + 'px';
+      p.style.backgroundColor = color; p.style.boxShadow = '0 0 10px ' + color;
+      p.style.setProperty('--tx', (Math.random() - .5) * 420 + 'px');
+      p.style.setProperty('--ty', (Math.random() - .8) * 420 + 'px');
+      const size = Math.random() * 8 + 6;
+      p.style.width = size + 'px'; p.style.height = size + 'px';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1500);
+    }
+  </script>
+</body>
+</html>
