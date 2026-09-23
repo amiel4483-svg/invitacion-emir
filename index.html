@@ -13,18 +13,17 @@
   <meta property="og:title" content="🎂 ¡Cumpleaños 10 de Emir! | Una Misión de Cristal">
   <meta property="og:description" content="✨ Acompáñanos en esta misión estelar. ¡Confirma tu asistencia! 💎">
   <meta property="og:image" content="https://amiel4483-svg.github.io/invitacion-emir/imagenes/preview.jpg?v=1">
-  <meta property="og:image:secure_url" content="https://amiel4483-svg.github.io/invitacion-emir/imagenes/preview.jpg?v=1">
-  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Invitación al cumpleaños 10 de Emir">
-  <meta property="og:locale" content="es_MX">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="🎂 ¡Cumpleaños 10 de Emir! | Una Misión de Cristal">
-  <meta name="twitter:description" content="✨ Acompáñanos en esta misión estelar. ¡Confirma tu asistencia! 💎">
   <meta name="twitter:image" content="https://amiel4483-svg.github.io/invitacion-emir/imagenes/preview.jpg?v=1">
   <meta name="theme-color" content="#2c1b4d">
+  
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <!-- ✅ GSAP: Librería de animaciones de alto rendimiento -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { margin:0; padding:0; overflow-x:hidden; }
@@ -40,11 +39,23 @@
       padding: 20px;
       position: relative;
       overflow: hidden;
+      /* ✅ Optimización: mejor renderizado */
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
+    /* ✅ will-change para animaciones GPU-aceleradas */
+    #invitation-card, #start-overlay, #portal-gem, .selectable-gem, 
+    .btn-action, .counter-btn, .music-toggle, .btn-start {
+      will-change: transform, opacity;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+    }
+    
+    #portal-gem { will-change: transform, filter; }
+    #invitation-card { will-change: transform, box-shadow; }
+
     @keyframes floaty { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(2deg);} }
-    @keyframes floatyReverse { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(-2deg);} }
-    /* ✅ FIX 3: Nueva animación que preserva el volteo de Steven */
     @keyframes floatyReverseFlipped { 
       0%,100%{transform: scaleX(-1) translateY(0) rotate(0deg);} 
       50%{transform: scaleX(-1) translateY(-15px) rotate(-2deg);} 
@@ -60,19 +71,6 @@
       0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px #ff69b4); } 
       50% { transform: scale(1.05); filter: drop-shadow(0 0 40px #fff) drop-shadow(0 0 80px #ffeb3b); } 
     }
-    @keyframes gemCharging {
-      0% { transform: scale(1) rotate(0deg) translate(0, 0); filter: brightness(1) drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px #ff69b4); }
-      25% { transform: scale(1.05) rotate(-3deg) translate(-3px, 2px); filter: brightness(1.7) drop-shadow(0 0 40px #fff) drop-shadow(0 0 80px #ffeb3b); }
-      50% { transform: scale(1.10) rotate(-4deg) translate(-4px, 3px); filter: brightness(2.1) drop-shadow(0 0 50px #fff) drop-shadow(0 0 100px #ffeb3b); }
-      75% { transform: scale(1.14) rotate(-5deg) translate(-5px, 4px); filter: brightness(2.5) drop-shadow(0 0 70px #fff) drop-shadow(0 0 140px #ffeb3b); }
-      100% { transform: scale(1.20) rotate(0deg) translate(0, 0); filter: brightness(3.5) drop-shadow(0 0 100px #fff) drop-shadow(0 0 200px #ffeb3b); }
-    }
-    /* ✅ FIX 4: Rayo eléctrico con centrado correcto */
-    @keyframes electricDischarge {
-      0% { transform: translate(-50%, -50%) scale(0.3) rotate(var(--angle)); opacity: 1; }
-      30% { transform: translate(-50%, -50%) scale(1) rotate(var(--angle)); opacity: 1; }
-      100% { transform: translate(-50%, -50%) scale(1.3) rotate(var(--angle)) translateX(80px); opacity: 0; }
-    }
     @keyframes staticSpark {
       0% { transform: scale(0) rotate(0deg); opacity: 0; }
       20% { opacity: 1; }
@@ -86,27 +84,6 @@
       0% { transform: translate(var(--start-x), var(--start-y)) scale(1); opacity: 0; }
       20% { opacity: 1; }
       100% { transform: translate(0, 0) scale(0.2); opacity: 0; }
-    }
-    @keyframes ringExpand {
-      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; border-width: 20px; }
-      100% { transform: translate(-50%, -50%) scale(5); opacity: 0; border-width: 2px; }
-    }
-    @keyframes gemSplitLeftZigzag {
-      0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
-      15% { transform: translate(calc(-50% - 20px), calc(-50% - 15px)) rotate(-5deg); opacity: 1; }
-      50% { transform: translate(calc(-50% - 120px), 30vh) rotate(-45deg); opacity: 0.8; }
-      100% { transform: translate(calc(-50% - 250px), 100vh) rotate(-360deg); opacity: 0; }
-    }
-    @keyframes gemSplitRightZigzag {
-      0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
-      15% { transform: translate(calc(-50% + 20px), calc(-50% - 15px)) rotate(5deg); opacity: 1; }
-      50% { transform: translate(calc(-50% + 120px), 30vh) rotate(45deg); opacity: 0.8; }
-      100% { transform: translate(calc(-50% + 250px), 100vh) rotate(360deg); opacity: 0; }
-    }
-    @keyframes shardFall {
-      0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
-      20% { transform: translate(calc(var(--tx) * 0.4), calc(var(--ty) * 0.3 - 50px)) rotate(calc(var(--rot) * 0.3)) scale(1); opacity: 1; }
-      100% { transform: translate(var(--tx), 100vh) rotate(var(--rot)) scale(0.5); opacity: 0; }
     }
     @keyframes shockwave {
       0% { transform: translate(-50%, -50%) scale(0); opacity: 1; box-shadow: 0 0 30px #fff; }
@@ -123,16 +100,6 @@
     @keyframes frameGlow {
       0%, 100% { box-shadow: 0 0 30px rgba(180, 150, 255, 0.6), inset 0 0 40px rgba(255, 255, 255, 0.4), 0 20px 50px rgba(0,0,0,0.5); }
       50% { box-shadow: 0 0 50px rgba(220, 180, 255, 0.9), inset 0 0 50px rgba(255, 255, 255, 0.6), 0 20px 50px rgba(0,0,0,0.5); }
-    }
-    @keyframes screenCrack {
-      0% { opacity: 0; transform: scale(0.8); }
-      20% { opacity: 1; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes crackDraw {
-      0% { stroke-dashoffset: 1000; opacity: 0; }
-      20% { opacity: 1; }
-      100% { stroke-dashoffset: 0; opacity: 1; }
     }
     @keyframes selectedGlowYes {
       0%, 100% { filter: drop-shadow(0 0 15px #ffeb3b) drop-shadow(0 0 30px #ff69b4) brightness(1.2); transform: scale(1.05); }
@@ -182,7 +149,7 @@
       background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%);
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       z-index: 500; color: #fff; text-align: center; padding: 20px;
-      transition: opacity 0.8s ease-out;
+      transition: opacity 0.6s ease-out;
     }
     .start-title { font-family:'Fredoka One', cursive; font-size: 2.5rem; color: #ff69b4; margin: 0 0 5px; text-shadow: 0 0 15px rgba(255,105,180,0.8); }
     .start-sub { color: #b39ddb; font-weight: 700; letter-spacing: .2em; font-size: 0.9rem; margin-bottom: 30px; }
@@ -190,7 +157,7 @@
     .btn-start {
       background: linear-gradient(135deg, #ec4899, #8b5cf6); border: none; padding: 16px 50px; border-radius: 50px;
       color: #fff; font-size: 1.2rem; font-family: 'Fredoka One', cursive; cursor: pointer;
-      box-shadow: 0 10px 30px rgba(236,72,153,0.5); transition: transform 0.2s;
+      box-shadow: 0 10px 30px rgba(236,72,153,0.5); transition: transform 0.2s ease;
     }
     .btn-start:active { transform: scale(0.95); }
 
@@ -201,7 +168,6 @@
     #scene-container { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
     .scene-element { position: absolute; filter: drop-shadow(0 10px 15px rgba(60,20,90,0.5)); }
     #stage-emir { left: -15px; bottom: 12vh; width: 95px; animation: floaty 4s infinite ease-in-out; }
-    /* ✅ FIX 3: Steven usa la nueva animación con volteo preservado */
     #stage-steven { right: -15px; bottom: 12vh; width: 110px; animation: floatyReverseFlipped 5s infinite ease-in-out; }
 
     #invitation-card {
@@ -253,7 +219,9 @@
     .location-banner a {
       background: #ec4899; color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 10px;
       font-family: 'Fredoka One', cursive; font-size: 0.8rem; box-shadow: 0 3px 0 #880e4f;
+      transition: transform 0.15s ease;
     }
+    .location-banner a:active { transform: translateY(3px); box-shadow: none; }
     .main-title {
       font-family: 'Fredoka One', cursive; line-height: 1.1; margin: 0 0 5px;
       font-size: 2.2rem; color: #fff; -webkit-text-stroke: 2px #7b4fd0;
@@ -383,8 +351,9 @@
       width: 100%; padding: 14px 16px; border-radius: 12px; border: 2px solid #d1c4e9;
       background: rgba(255,255,255,0.8); font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700; color: #4a2b86;
       outline: none; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
     }
-    .form-input:focus { border-color: #ec4899; background: #fff; }
+    .form-input:focus { border-color: #ec4899; background: #fff; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 0 0 3px rgba(236,72,153,0.15); }
     .counters-wrapper { display: flex; gap: 15px; width: 100%; margin-bottom: 15px; }
     .counter-box {
       flex: 1; background: #fce4ec; border-radius: 15px; padding: 10px;
@@ -397,20 +366,21 @@
       background: #ec4899; color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%;
       font-size: 1rem; font-weight: bold; display: flex; justify-content: center; align-items: center;
       cursor: pointer; box-shadow: 0 3px 0 #880e4f;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
     }
     .counter-btn:active { transform: translateY(3px); box-shadow: none; }
     .counter-val { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: #4a2b86; width: 25px; text-align: center; }
     .gems-row { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; width: 100%; margin-bottom: 20px; }
-    .gem-dot { width: 22px; height: 22px; cursor: pointer; transition: transform 0.2s, filter 0.2s; }
+    .gem-dot { width: 22px; height: 22px; cursor: pointer; transition: transform 0.25s ease, filter 0.25s ease; }
     .gem-dot img { width: 100%; height: 100%; object-fit: contain; }
     .gem-dot.lit-adult { transform: scale(1.2); filter: hue-rotate(180deg) saturate(1.8) drop-shadow(0 0 6px #64b5f6); }
     .gem-dot.lit-kid { transform: scale(1.2); filter: hue-rotate(0deg) saturate(1.8) drop-shadow(0 0 6px #ff80ab); }
     .gem-dot.unlit { opacity: 0.4; filter: grayscale(0.8); }
     .selection-title { font-family: 'Fredoka One', cursive; color: #4a2b86; font-size: 1rem; margin-bottom: 10px; text-align: center; width: 100%; }
     .selection-row { display: flex; justify-content: center; gap: 25px; width: 100%; margin-bottom: 20px; }
-    .selectable-gem { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.3s; position: relative; }
-    .selectable-gem img { width: 80px; height: 80px; object-fit: contain; transition: all 0.3s ease; filter: grayscale(0.7) brightness(0.7); opacity: 0.6; }
-    .selectable-gem span { font-family: 'Fredoka One', cursive; font-size: 0.85rem; margin-top: 5px; color: #4a2b86; opacity: 0.6; transition: all 0.3s; }
+    .selectable-gem { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.3s ease; position: relative; }
+    .selectable-gem img { width: 80px; height: 80px; object-fit: contain; transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease; filter: grayscale(0.7) brightness(0.7); opacity: 0.6; }
+    .selectable-gem span { font-family: 'Fredoka One', cursive; font-size: 0.85rem; margin-top: 5px; color: #4a2b86; opacity: 0.6; transition: all 0.3s ease; }
     .selectable-gem.yes.selected img { animation: selectedGlowYes 1.5s infinite ease-in-out; filter: none; opacity: 1; }
     .selectable-gem.no.selected img { animation: selectedGlowNo 1.5s infinite ease-in-out; filter: hue-rotate(220deg) saturate(1.5) brightness(0.9); opacity: 1; }
     .selectable-gem.selected span { opacity: 1; font-size: 1rem; color: #ec4899; }
@@ -427,7 +397,7 @@
       position: relative; margin-top: 20px;
       display: flex; justify-content: center; align-items: center;
       width: 260px; height: 260px;
-      cursor: pointer; transition: transform 0.3s;
+      cursor: pointer; transition: transform 0.3s ease;
       touch-action: none; user-select: none; -webkit-user-select: none;
     }
     .portal-section.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
@@ -445,7 +415,7 @@
     }
     .portal-energy-ring {
       position: absolute; width: 92%; height: 92%; border-radius: 50%;
-      border: 3px solid transparent; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+      border: 3px solid transparent; pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
     }
     .portal-energy-ring.active { opacity: 1; animation: energyRingPulse 0.5s infinite; }
     #charge-ring {
@@ -457,13 +427,13 @@
       fill: none; stroke: #ffeb3b; stroke-width: 8; stroke-linecap: round;
       stroke-dasharray: 754; stroke-dashoffset: 754;
       filter: drop-shadow(0 0 10px #ffeb3b) drop-shadow(0 0 20px #ff69b4);
-      transition: stroke-dashoffset 0.05s linear, stroke 0.3s;
+      transition: stroke 0.3s ease;
     }
     #portal-gem {
       width: 200px; height: 200px; object-fit: contain; z-index: 2;
       animation: portalPulse 2s infinite ease-in-out; position: relative;
     }
-    #portal-gem.charging { animation: gemCharging 0.5s infinite ease-in-out; }
+    #portal-gem.charging { animation: none; }
     .electric-spark {
       position: absolute; top: 50%; left: 50%;
       width: 8px; height: 8px; border-radius: 50%; background: #fff;
@@ -488,6 +458,11 @@
       background: linear-gradient(180deg, #fff 0%, #b39ddb 30%, #b39ddb 70%, transparent 100%);
       filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #b39ddb) drop-shadow(0 0 30px #7e57c2);
     }
+    @keyframes electricDischarge {
+      0% { transform: translate(-50%, -50%) scale(0.3) rotate(var(--angle)); opacity: 1; }
+      30% { transform: translate(-50%, -50%) scale(1) rotate(var(--angle)); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.3) rotate(var(--angle)) translateX(80px); opacity: 0; }
+    }
     .portal-hint {
       position: absolute; bottom: -15px;
       font-family: 'Fredoka One', cursive; font-size: 0.85rem; color: #fff;
@@ -496,6 +471,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       animation: floaty 2s infinite ease-in-out;
       z-index: 7; pointer-events: none; text-align: center; white-space: nowrap;
+      transition: background 0.3s ease;
     }
     .portal-sparkle {
       position: absolute; font-size: 26px; color: #fff;
@@ -515,16 +491,14 @@
     #mensaje-final { margin-top: 20px; padding: 20px; border-radius: 15px; font-weight: 800; font-size: 1.1rem; width: 100%; text-align: center; }
     .hidden { display: none !important; }
 
-    .action-buttons {
-      width: 100%; display: flex; flex-direction: column; gap: 10px;
-      margin-top: 20px;
-    }
+    .action-buttons { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
     .btn-action {
       display: flex; align-items: center; justify-content: center; gap: 10px;
       padding: 12px 16px; border-radius: 14px; border: 2px solid #fff;
       font-family: 'Fredoka One', cursive; font-size: 0.92rem;
-      cursor: pointer; text-decoration: none; transition: transform 0.2s;
+      cursor: pointer; text-decoration: none;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .btn-action:active { transform: scale(0.96); }
     .btn-calendar {
@@ -549,7 +523,7 @@
       cursor: pointer;
       box-shadow: 0 3px 10px rgba(236,72,153,0.4);
       font-size: 1.1rem;
-      transition: transform 0.2s;
+      transition: transform 0.2s ease;
     }
     .music-toggle:active { transform: scale(0.9); }
     .music-toggle.playing { animation: gemBounce 2s infinite ease-in-out; }
@@ -557,24 +531,27 @@
     #portal-open-overlay {
       position: fixed; inset: 0; z-index: 2000; pointer-events: none;
       background: radial-gradient(circle, rgba(255,235,59,0.4) 0%, rgba(255,105,180,0.3) 40%, transparent 70%);
-      opacity: 0; transition: opacity 0.5s;
+      opacity: 0; transition: opacity 0.5s ease;
     }
     #portal-open-overlay.active { opacity: 1; }
+    
     .portal-creation-ring {
       position: fixed; top: 50%; left: 50%;
       width: 300px; height: 300px; border-radius: 50%;
       border: 15px solid #ffeb3b;
       box-shadow: 0 0 60px #ffeb3b, inset 0 0 60px #ff69b4;
       pointer-events: none; z-index: 2001;
-      animation: ringExpand 2s ease-out forwards;
+      opacity: 0;
     }
+    
     #screen-crack-overlay {
       position: fixed; inset: 0; z-index: 1999; pointer-events: none;
       opacity: 0;
       background: radial-gradient(circle at center, rgba(126,87,194,0.5) 0%, rgba(69,39,160,0.4) 40%, rgba(20,10,40,0.6) 100%);
+      transition: opacity 0.6s ease;
     }
-    #screen-crack-overlay.active { animation: screenCrack 1s forwards ease-out; }
-    #crack-svg { position: fixed; inset: 0; z-index: 2000; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+    #screen-crack-overlay.active { opacity: 1; }
+    #crack-svg { position: fixed; inset: 0; z-index: 2000; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; }
     #crack-svg.active { opacity: 1; }
     .crack-line {
       stroke: #fff; stroke-width: 2; fill: none;
@@ -582,16 +559,21 @@
       stroke-dasharray: 1000; stroke-dashoffset: 1000;
     }
     .crack-line.active { animation: crackDraw 1.5s ease-out forwards; }
+    @keyframes crackDraw {
+      0% { stroke-dashoffset: 1000; opacity: 0; }
+      20% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 1; }
+    }
+    
     .gem-half {
       position: fixed; width: 200px; height: 200px; object-fit: contain;
-      z-index: 2001; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      z-index: 2001; top: 50%; left: 50%; 
       pointer-events: none;
       filter: drop-shadow(0 0 20px #b39ddb) drop-shadow(0 0 40px #7e57c2) brightness(1.5);
     }
     .gem-half.left { clip-path: polygon(0% 0%, 45% 0%, 48% 8%, 52% 16%, 47% 24%, 53% 32%, 48% 40%, 54% 48%, 48% 56%, 53% 64%, 47% 72%, 52% 80%, 47% 88%, 52% 96%, 48% 100%, 0% 100%); }
     .gem-half.right { clip-path: polygon(45% 0%, 100% 0%, 100% 100%, 48% 100%, 52% 96%, 47% 88%, 52% 80%, 47% 72%, 53% 64%, 48% 56%, 54% 48%, 48% 40%, 53% 32%, 47% 24%, 52% 16%, 48% 8%); }
-    .gem-half.left.break { animation: gemSplitLeftZigzag 4s cubic-bezier(0.4, 0, 0.7, 1) forwards; }
-    .gem-half.right.break { animation: gemSplitRightZigzag 4s cubic-bezier(0.4, 0, 0.7, 1) forwards; }
+    
     .shockwave-ring {
       position: fixed; top: 50%; left: 50%;
       width: 200px; height: 200px; border-radius: 50%;
@@ -609,6 +591,11 @@
       animation: shardFall 4s cubic-bezier(0.4, 0, 0.7, 1) forwards;
     }
     .gem-shard img { width: 100%; height: 100%; object-fit: contain; }
+    @keyframes shardFall {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+      20% { transform: translate(calc(var(--tx) * 0.4), calc(var(--ty) * 0.3 - 50px)) rotate(calc(var(--rot) * 0.3)) scale(1); opacity: 1; }
+      100% { transform: translate(var(--tx), 100vh) rotate(var(--rot)) scale(0.5); opacity: 0; }
+    }
     .energy-particle {
       position: fixed; width: 8px; height: 8px; border-radius: 50%;
       background: #ffeb3b; box-shadow: 0 0 15px #ffeb3b, 0 0 30px #ff69b4;
@@ -675,7 +662,7 @@
           <span class="date-label">📅 MARCA TU CALENDARIO</span>
           <span class="date-main">03</span>
           <span class="date-month">de Octubre 2026</span>
-          <span class="date-hour">🕐 3:00 PM hasta que quieras ir</span>
+          <span class="date-hour">🕐 A partir de las 3:00 PM</span>
         </div>
       </div>
 
@@ -828,10 +815,27 @@
     let ninos = 0;
     let seleccion = null;
     let animacionEnCurso = false;
-    let chargeProgress = 0;
-    let chargeInterval = null;
     let isCharging = false;
+    let chargeStartTime = 0;
+    let chargeRAF = null;
     let electricInterval = null;
+    let countdownInterval = null;
+    let particlesActivas = [];
+
+    /* ✅ FIX: Detener intervalos al salir */
+    window.addEventListener('beforeunload', () => {
+      if (chargeRAF) cancelAnimationFrame(chargeRAF);
+      if (electricInterval) clearInterval(electricInterval);
+      if (countdownInterval) clearInterval(countdownInterval);
+    });
+
+    /* ✅ FIX: Pausar animaciones cuando la pestaña no está visible */
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        const audio = document.getElementById('bg-music');
+        if (audio && !audio.paused) audio.pause();
+      }
+    });
 
     window.addEventListener('load', () => {
       const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + CONFIG.lat + ',' + CONFIG.lng;
@@ -874,7 +878,7 @@
       };
       
       actualizar();
-      setInterval(actualizar, 1000);
+      countdownInterval = setInterval(actualizar, 1000);
     }
 
     function toggleMusic() {
@@ -892,13 +896,15 @@
       }
     }
 
+    /* ✅ FIX: Calendario usa las fechas del CONFIG */
     function agregarAlCalendario() {
-      const evento = {
-        titulo: '🎂 Cumpleaños 10 de Emir - Una Misión de Cristal',
-        descripcion: '¡Acompáñanos en esta misión estelar! Habrá pizza, pastel y sorpresas. Tu presencia es el mejor regalo.',
-        ubicacion: CONFIG.ubicacionTexto,
-        inicio: '20261003T210000Z',
-        fin: '20261004T060000Z'
+      const fecha = CONFIG.fechaEvento;
+      const fin = new Date(fecha.getTime() + 9 * 60 * 60 * 1000); // +9 horas
+      
+      const formatICS = (d) => {
+        const pad = n => String(n).padStart(2, '0');
+        return d.getUTCFullYear() + pad(d.getUTCMonth()+1) + pad(d.getUTCDate()) + 'T' + 
+               pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + 'Z';
       };
       
       const ics = [
@@ -907,12 +913,12 @@
         'PRODID:-//Invitacion Emir//ES',
         'BEGIN:VEVENT',
         'UID:' + Date.now() + '@invitacion-emir',
-        'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
-        'DTSTART:' + evento.inicio,
-        'DTEND:' + evento.fin,
-        'SUMMARY:' + evento.titulo,
-        'DESCRIPTION:' + evento.descripcion.replace(/\n/g, '\\n'),
-        'LOCATION:' + evento.ubicacion,
+        'DTSTAMP:' + formatICS(new Date()),
+        'DTSTART:' + formatICS(fecha),
+        'DTEND:' + formatICS(fin),
+        'SUMMARY:🎂 Cumpleaños 10 de Emir - Una Misión de Cristal',
+        'DESCRIPTION:¡Acompáñanos en esta misión estelar!',
+        'LOCATION:' + CONFIG.ubicacionTexto,
         'BEGIN:VALARM',
         'TRIGGER:-P1D',
         'ACTION:DISPLAY',
@@ -1016,11 +1022,15 @@
       seleccion = tipo;
       document.getElementById('gem-yes').classList.remove('selected');
       document.getElementById('gem-no').classList.remove('selected');
-      if (tipo === 'si') {
-        document.getElementById('gem-yes').classList.add('selected');
-      } else {
-        document.getElementById('gem-no').classList.add('selected');
-      }
+      
+      // ✅ GSAP para animación más fluida
+      const target = tipo === 'si' ? document.getElementById('gem-yes') : document.getElementById('gem-no');
+      target.classList.add('selected');
+      
+      gsap.fromTo(target, 
+        { scale: 0.8 },
+        { scale: 1, duration: 0.4, ease: "back.out(2)" }
+      );
     }
 
     function initChargeListeners() {
@@ -1060,6 +1070,7 @@
       }
     }
 
+    /* ✅ FIX: Charging con requestAnimationFrame (mucho más fluido) */
     function startCharging() {
       if (animacionEnCurso || isCharging) return;
       
@@ -1086,7 +1097,7 @@
       }
       
       isCharging = true;
-      chargeProgress = 0;
+      chargeStartTime = performance.now();
       
       const portalGem = document.getElementById('portal-gem');
       const hint = document.getElementById('portal-hint');
@@ -1098,6 +1109,22 @@
       portalGem.classList.add('charging');
       energyRing.classList.add('active');
       
+      // ✅ GSAP: vibración suave continua
+      gsap.to(portalGem, {
+        scale: 1.15,
+        duration: 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+      gsap.to(portalGem, {
+        rotation: 5,
+        duration: 0.15,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+      
       hint.innerHTML = '⚡ ¡Sigue presionando!';
       hint.style.background = seleccion === 'si' 
         ? 'linear-gradient(135deg, #ffeb3b, #ff69b4)' 
@@ -1105,24 +1132,26 @@
       
       chargeRing.style.stroke = seleccion === 'si' ? '#ffeb3b' : '#b39ddb';
       
-      const updateInterval = 50;
-      const increment = 100 / (CONFIG.chargeTime / updateInterval);
-      
       electricInterval = setInterval(() => {
-        const rate = 0.3 + (chargeProgress / 100) * 0.7;
+        const progress = Math.min(100, ((performance.now() - chargeStartTime) / CONFIG.chargeTime) * 100);
+        const rate = 0.3 + (progress / 100) * 0.7;
         if (Math.random() < rate) {
           createElectricSpark();
           if (Math.random() < 0.4) setTimeout(createElectricSpark, 30);
         }
       }, 80);
       
-      chargeInterval = setInterval(() => {
-        chargeProgress += increment;
+      // ✅ Loop con RAF para máxima fluidez
+      function animate(now) {
+        if (!isCharging) return;
         
-        const offset = 754 - (754 * chargeProgress / 100);
+        const elapsed = now - chargeStartTime;
+        const progress = Math.min(100, (elapsed / CONFIG.chargeTime) * 100);
+        
+        const offset = 754 - (754 * progress / 100);
         chargeRing.style.strokeDashoffset = offset;
         
-        const speedFactor = chargeProgress / 100;
+        const speedFactor = progress / 100;
         const outerDuration = 12 - (speedFactor * 10);
         const innerDuration = 8 - (speedFactor * 6.5);
         ringOuter.style.animationDuration = outerDuration + 's';
@@ -1151,35 +1180,41 @@
         }
         
         if ('vibrate' in navigator) {
-          const intensity = Math.floor(5 + (chargeProgress / 100) * 30);
+          const intensity = Math.floor(5 + (progress / 100) * 30);
           if (Math.random() < 0.4) navigator.vibrate(intensity);
         }
         
-        if (chargeProgress >= 100) {
-          clearInterval(chargeInterval);
-          clearInterval(electricInterval);
-          chargeInterval = null;
-          electricInterval = null;
+        if (progress >= 100) {
           isCharging = false;
+          clearInterval(electricInterval);
+          electricInterval = null;
           executeConfirmacion();
+          return;
         }
-      }, updateInterval);
+        
+        chargeRAF = requestAnimationFrame(animate);
+      }
+      
+      chargeRAF = requestAnimationFrame(animate);
     }
 
     function stopCharging() {
       if (!isCharging) return;
       isCharging = false;
       
-      if (chargeInterval) { clearInterval(chargeInterval); chargeInterval = null; }
+      if (chargeRAF) { cancelAnimationFrame(chargeRAF); chargeRAF = null; }
       if (electricInterval) { clearInterval(electricInterval); electricInterval = null; }
       
-      chargeProgress = 0;
       const portalGem = document.getElementById('portal-gem');
       const hint = document.getElementById('portal-hint');
       const chargeRing = document.querySelector('#charge-ring circle');
       const ringOuter = document.getElementById('ring-outer');
       const ringInner = document.getElementById('ring-inner');
       const energyRing = document.getElementById('energy-ring');
+      
+      // ✅ GSAP: resetear animaciones
+      gsap.killTweensOf(portalGem);
+      gsap.to(portalGem, { scale: 1, rotation: 0, duration: 0.3, ease: "power2.out" });
       
       portalGem.classList.remove('charging');
       energyRing.classList.remove('active');
@@ -1201,7 +1236,6 @@
       const ninosNum = Math.max(0, parseInt(ninos, 10) || 0);
       const asistira = seleccion === 'si';
 
-      // ✅ FIX 1 + FIX 5: Guardar TODOS los datos con try/catch
       const datosAGuardar = { 
         nombre: nombre, 
         adultos: adultosNum, 
@@ -1243,17 +1277,29 @@
       }
     }
 
+    /* ✅ GSAP: Portal de creación más fluido */
     function animacionPortalCreacion() {
       const overlay = document.getElementById('portal-open-overlay');
       overlay.classList.add('active');
       
+      // Anillos expansivos con GSAP
       for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          const ring = document.createElement('div');
-          ring.className = 'portal-creation-ring';
-          document.body.appendChild(ring);
-          setTimeout(() => ring.remove(), 2000);
-        }, i * 300);
+        const ring = document.createElement('div');
+        ring.className = 'portal-creation-ring';
+        document.body.appendChild(ring);
+        
+        gsap.fromTo(ring,
+          { scale: 0, opacity: 1, borderWidth: 20 },
+          { 
+            scale: 5, 
+            opacity: 0, 
+            borderWidth: 2,
+            duration: 2, 
+            delay: i * 0.3,
+            ease: "power2.out",
+            onComplete: () => ring.remove()
+          }
+        );
       }
       
       const estrellas = ['✨', '⭐', '💫', '🌟', '💖', '💎', '🌈'];
@@ -1281,6 +1327,7 @@
       }, 3500);
     }
 
+    /* ✅ GSAP: Rotura de gema más fluida */
     function animacionRoturaGema() {
       const crackOverlay = document.getElementById('screen-crack-overlay');
       crackOverlay.classList.add('active');
@@ -1293,16 +1340,19 @@
       const leftHalf = document.createElement('img');
       leftHalf.src = './imagenes/gema_portal.png';
       leftHalf.className = 'gem-half left';
+      leftHalf.style.transform = 'translate(-50%, -50%)';
       
       const rightHalf = document.createElement('img');
       rightHalf.src = './imagenes/gema_portal.png';
       rightHalf.className = 'gem-half right';
+      rightHalf.style.transform = 'translate(-50%, -50%)';
       
       document.body.appendChild(leftHalf);
       document.body.appendChild(rightHalf);
       
       if ('vibrate' in navigator) navigator.vibrate([300, 100, 400]);
       
+      // ✅ GSAP: onda de choque
       setTimeout(() => {
         const shockwave = document.createElement('div');
         shockwave.className = 'shockwave-ring';
@@ -1310,11 +1360,29 @@
         setTimeout(() => shockwave.remove(), 1500);
       }, 600);
       
+      // ✅ GSAP: mitades se separan con easing natural (como gravedad)
       setTimeout(() => {
-        leftHalf.classList.add('break');
-        rightHalf.classList.add('break');
+        gsap.to(leftHalf, {
+          x: -250,
+          y: '100vh',
+          rotation: -360,
+          opacity: 0,
+          scale: 0.5,
+          duration: 4,
+          ease: "power2.in"
+        });
+        gsap.to(rightHalf, {
+          x: 250,
+          y: '100vh',
+          rotation: 360,
+          opacity: 0,
+          scale: 0.5,
+          duration: 4,
+          ease: "power2.in"
+        });
       }, 1200);
       
+      // Fragmentos
       setTimeout(() => {
         const clipPaths = [
           'polygon(0% 0%, 50% 0%, 50% 50%, 0% 50%)',
@@ -1424,7 +1492,6 @@
       setTimeout(() => { circle.style.opacity = '1'; }, 100);
     }
 
-    // ✅ FIX 1 + 2 + 5 + 6: Cargar TODOS los datos con try/catch y restaurar selección
     function cargarDatosGuardados() {
       try {
         const guardado = localStorage.getItem('invitacionEmir');
@@ -1441,7 +1508,6 @@
         document.getElementById('count-ninos').innerText = ninos;
         actualizarGemas();
 
-        // Restaurar selección de gema
         if (datos.seleccion) {
           seleccion = datos.seleccion;
           document.getElementById('gem-yes').classList.remove('selected');
@@ -1453,7 +1519,6 @@
           }
         }
 
-        // Aviso completo
         const notificacion = document.getElementById('notificacion-previo');
         notificacion.classList.remove('hidden');
         let extra = '';
@@ -1469,7 +1534,7 @@
     function startExperience() {
       const overlay = document.getElementById('start-overlay');
       overlay.style.opacity = '0';
-      setTimeout(() => overlay.style.display = 'none', 800);
+      setTimeout(() => overlay.style.display = 'none', 600);
       
       const audio = document.getElementById('bg-music');
       if (audio) { 
