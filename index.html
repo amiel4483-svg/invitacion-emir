@@ -42,27 +42,14 @@
       overflow: hidden;
     }
 
-    /* ============ ANIMACIONES BASE ============ */
     @keyframes floaty { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(2deg);} }
     @keyframes floatyReverse { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(-2deg);} }
     @keyframes twinkle { 0%,100%{opacity:.2; transform:scale(0.8);} 50%{opacity:.9; transform:scale(1.2);} }
     @keyframes spinShield { from{transform:translate(-50%,-50%) rotate(0deg);} to{transform:translate(-50%,-50%) rotate(360deg);} }
     @keyframes gemBounce { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-8px) scale(1.05);} }
     @keyframes popGem { 0%{transform:scale(1);} 50%{transform:scale(1.4);} 100%{transform:scale(1.2);} }
-    
-    /* ============ ANIMACIONES DE ENTRADA ESCALONADA ============ */
-    @keyframes revealUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes revealScale {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes revealFlip {
-      from { opacity: 0; transform: rotateX(-90deg) translateY(30px); }
-      to { opacity: 1; transform: rotateX(0deg) translateY(0); }
-    }
+    @keyframes revealUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes revealScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
     @keyframes cardEntrance {
       0% { opacity: 0; transform: perspective(1200px) rotateY(-15deg) translateY(60px) scale(0.9); }
       60% { opacity: 1; transform: perspective(1200px) rotateY(5deg) translateY(-5px) scale(1.02); }
@@ -73,8 +60,6 @@
       60% { opacity: 1; transform: scale(1.1) rotate(3deg); filter: blur(0); }
       100% { opacity: 1; transform: scale(1) rotate(0deg); }
     }
-    
-    /* ============ PORTAL / GEMA ============ */
     @keyframes spinPortal { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes spinPortalReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
     @keyframes portalPulse { 
@@ -92,8 +77,6 @@
       0%, 100% { box-shadow: 0 0 20px rgba(255, 235, 59, 0.6), inset 0 0 20px rgba(255, 235, 59, 0.4); }
       50% { box-shadow: 0 0 50px rgba(255, 235, 59, 1), inset 0 0 50px rgba(255, 235, 59, 0.8); }
     }
-    
-    /* ============ PARTÍCULAS Y DESTELLOS ============ */
     @keyframes electricDischarge {
       0% { transform: scale(0.3) rotate(var(--angle)); opacity: 1; }
       30% { transform: scale(1) rotate(var(--angle)); opacity: 1; }
@@ -117,22 +100,10 @@
       0% { transform: translate(0, 0) scale(0.5) rotate(0deg); opacity: 1; }
       100% { transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg); opacity: 0; }
     }
-    @keyframes confettiFall {
-      0% { transform: translateY(-20vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-    }
-    
-    /* ============ PORTAL CREACIÓN ============ */
     @keyframes ringExpand {
       0% { transform: translate(-50%, -50%) scale(0); opacity: 1; border-width: 20px; }
       100% { transform: translate(-50%, -50%) scale(5); opacity: 0; border-width: 2px; }
     }
-    @keyframes lightBurst {
-      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-      100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
-    }
-    
-    /* ============ ROTURA GEMA ============ */
     @keyframes gemSplitLeftZigzag {
       0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
       15% { transform: translate(calc(-50% - 20px), calc(-50% - 15px)) rotate(-5deg); opacity: 1; }
@@ -164,8 +135,6 @@
       20% { opacity: 1; }
       100% { stroke-dashoffset: 0; opacity: 1; }
     }
-    
-    /* ============ SELECCIÓN GEMAS ============ */
     @keyframes selectedGlowYes {
       0%, 100% { filter: drop-shadow(0 0 15px #ffeb3b) drop-shadow(0 0 30px #ff69b4) brightness(1.2); transform: scale(1.05); }
       50% { filter: drop-shadow(0 0 30px #ffeb3b) drop-shadow(0 0 50px #ff69b4) brightness(1.5); transform: scale(1.15); }
@@ -174,8 +143,6 @@
       0%, 100% { filter: drop-shadow(0 0 15px #b39ddb) drop-shadow(0 0 30px #7e57c2) brightness(1.2); transform: scale(1.05); }
       50% { filter: drop-shadow(0 0 30px #b39ddb) drop-shadow(0 0 50px #7e57c2) brightness(1.5); transform: scale(1.15); }
     }
-    
-    /* ============ FECHA ============ */
     @keyframes dateShine {
       0% { transform: translateX(-150%) rotate(25deg); }
       100% { transform: translateX(250%) rotate(25deg); }
@@ -192,8 +159,6 @@
       0%, 100% { transform: translateY(0) scale(1); }
       50% { transform: translateY(-4px) scale(1.06); }
     }
-    
-    /* ============ CONTADOR REGRESIVO ============ */
     @keyframes countdownPulse {
       0%, 100% { transform: scale(1); opacity: 0.7; }
       50% { transform: scale(1.15); opacity: 1; }
@@ -207,8 +172,6 @@
       50% { transform: rotateX(-90deg); }
       100% { transform: rotateX(0deg); }
     }
-    
-    /* ============ INFO CARDS ============ */
     @keyframes infoCardFloat {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
@@ -217,20 +180,14 @@
       0%, 100% { transform: scale(1) rotate(0deg); }
       50% { transform: scale(1.15) rotate(-10deg); }
     }
-    
-    /* ============ TARJETA MARCO ============ */
     @keyframes frameGlow {
       0%, 100% { box-shadow: 0 0 30px rgba(180, 150, 255, 0.6), inset 0 0 40px rgba(255, 255, 255, 0.4), 0 20px 50px rgba(0,0,0,0.5); }
       50% { box-shadow: 0 0 50px rgba(220, 180, 255, 0.9), inset 0 0 50px rgba(255, 255, 255, 0.6), 0 20px 50px rgba(0,0,0,0.5); }
     }
-    
-    /* ============ ESPADA ============ */
     @keyframes swordSwingVertical {
       0%, 100% { transform: translateY(-50%) rotate(90deg) translateX(0); }
       50% { transform: translateY(-50%) rotate(90deg) translateX(-6px); }
     }
-    
-    /* ============ BOTÓN MÚSICA ============ */
     @keyframes musicWave {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.1); }
@@ -239,25 +196,13 @@
       0% { transform: scale(1); opacity: 0.7; }
       100% { transform: scale(2); opacity: 0; }
     }
-    
-    /* ============ INPUT FOCUS ============ */
     @keyframes inputPulse {
       0%, 100% { box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 0 0 0 rgba(236,72,153,0.4); }
       50% { box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 0 0 8px rgba(236,72,153,0.1); }
     }
-    
-    /* ============ UTILIDADES ============ */
-    .anim-float { animation: floaty 4s ease-in-out infinite; }
-    .reveal-1 { animation: revealUp 0.6s ease-out 0.1s both; }
-    .reveal-2 { animation: revealUp 0.6s ease-out 0.2s both; }
-    .reveal-3 { animation: revealUp 0.6s ease-out 0.3s both; }
-    .reveal-4 { animation: revealUp 0.6s ease-out 0.4s both; }
-    .reveal-5 { animation: revealUp 0.6s ease-out 0.5s both; }
-    .reveal-6 { animation: revealUp 0.6s ease-out 0.6s both; }
-    .reveal-7 { animation: revealUp 0.6s ease-out 0.7s both; }
-    .reveal-8 { animation: revealUp 0.6s ease-out 0.8s both; }
 
-    /* ============ PANTALLA DE INICIO ============ */
+    .anim-float { animation: floaty 4s ease-in-out infinite; }
+
     #start-overlay {
       position: fixed; inset: 0;
       background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%);
@@ -286,8 +231,7 @@
       color: #fff; font-size: 1.2rem; font-family: 'Fredoka One', cursive; cursor: pointer;
       box-shadow: 0 10px 30px rgba(236,72,153,0.5); transition: transform 0.2s, box-shadow 0.2s;
       animation: revealUp 0.8s ease-out 0.6s both;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .btn-start::before {
       content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
@@ -298,7 +242,6 @@
     .btn-start:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 40px rgba(236,72,153,0.7); }
     .btn-start:active { transform: scale(0.95); }
 
-    /* ============ FONDO ESTRELLADO ============ */
     .sky-star { position: fixed; color: #fff; pointer-events: none; z-index: 1; animation: twinkle 3s infinite; text-shadow: 0 0 8px #fff; }
     .floating-gem { 
       position: fixed; z-index: 1; pointer-events: none; 
@@ -307,7 +250,6 @@
     }
     .floating-gem img { width: 100%; height: 100%; object-fit: contain; }
     
-    /* Partículas ambientales adicionales */
     .ambient-sparkle {
       position: fixed; color: #fff; pointer-events: none; z-index: 1;
       text-shadow: 0 0 10px #ff69b4, 0 0 20px #ffeb3b;
@@ -315,22 +257,11 @@
       opacity: 0.5;
     }
 
-    /* ============ ESCENARIO ============ */
     #scene-container { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
     .scene-element { position: absolute; filter: drop-shadow(0 10px 15px rgba(60,20,90,0.5)); }
-    #stage-emir { 
-      left: -15px; bottom: 12vh; width: 95px; 
-      animation: floaty 4s infinite ease-in-out; 
-      opacity: 0.95;
-    }
-    #stage-steven { 
-      right: -15px; bottom: 12vh; width: 110px; 
-      animation: floatyReverse 5s infinite ease-in-out; 
-      transform: scaleX(-1);
-      opacity: 0.95;
-    }
+    #stage-emir { left: -15px; bottom: 12vh; width: 95px; animation: floaty 4s infinite ease-in-out; opacity: 0.95; }
+    #stage-steven { right: -15px; bottom: 12vh; width: 110px; animation: floatyReverse 5s infinite ease-in-out; transform: scaleX(-1); opacity: 0.95; }
 
-    /* ============ TARJETA ============ */
     #invitation-card {
       position: relative; width: 100%; max-width: 400px; z-index: 10;
       background: linear-gradient(165deg, #f5e8ff 0%, #ede0ff 25%, #fce4ec 60%, #e8d5ff 100%);
@@ -430,7 +361,6 @@
     }
     .emir-photo-container img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
-    /* ============ BADGE DE FECHA ============ */
     .event-date {
       position: relative; width: 100%; margin: 0 0 15px; padding: 14px 20px 12px;
       background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,220,240,0.92), rgba(230,200,255,0.92));
@@ -478,7 +408,6 @@
     .date-sparkle-3 { bottom: 6px; left: 18px; animation-delay: 1s; }
     .date-sparkle-4 { bottom: 6px; right: 18px; animation-delay: 1.5s; }
 
-    /* ============ CONTADOR REGRESIVO ============ */
     .countdown-container {
       width: 100%; margin: 0 0 15px;
       padding: 12px 10px;
@@ -511,7 +440,6 @@
       line-height: 1; animation: countdownPulse 1s infinite ease-in-out;
     }
 
-    /* ============ INFO EXTRA ============ */
     .info-extra {
       width: 100%; margin: 0 0 18px;
       display: flex; flex-direction: column; gap: 8px;
@@ -551,7 +479,6 @@
     }
     .info-text strong { color: #c2185b; font-family: 'Fredoka One', cursive; }
 
-    /* ============ FORMULARIO ============ */
     .form-group { 
       width: 100%; margin-bottom: 15px; text-align: left;
       animation: revealUp 0.7s ease-out both;
@@ -657,7 +584,6 @@
     }
     .selectable-gem.no.selected::after { background: #7e57c2; }
 
-    /* ============ GEMA DEL PORTAL ============ */
     .portal-section {
       position: relative; margin-top: 20px;
       display: flex; justify-content: center; align-items: center;
@@ -753,7 +679,6 @@
     #mensaje-final { margin-top: 20px; padding: 20px; border-radius: 15px; font-weight: 800; font-size: 1.1rem; width: 100%; text-align: center; }
     .hidden { display: none !important; }
 
-    /* ============ BOTONES DE ACCIÓN ============ */
     .action-buttons {
       width: 100%; display: flex; flex-direction: column; gap: 10px;
       margin-top: 20px;
@@ -766,8 +691,7 @@
       cursor: pointer; text-decoration: none; 
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .btn-action::before {
       content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
@@ -778,21 +702,11 @@
     .btn-action:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
     .btn-action:active { transform: scale(0.97); }
     
-    .btn-calendar {
-      background: linear-gradient(135deg, #b39ddb, #7e57c2); color: #fff;
-      box-shadow: 0 4px 12px rgba(126,87,194,0.4);
-    }
-    .btn-whatsapp {
-      background: linear-gradient(135deg, #25d366, #128c7e); color: #fff;
-      box-shadow: 0 4px 12px rgba(37,211,102,0.4);
-    }
-    .btn-whatsapp-2 {
-      background: linear-gradient(135deg, #4fc3f7, #0288d1); color: #fff;
-      box-shadow: 0 4px 12px rgba(2,136,209,0.4);
-    }
+    .btn-calendar { background: linear-gradient(135deg, #b39ddb, #7e57c2); color: #fff; box-shadow: 0 4px 12px rgba(126,87,194,0.4); }
+    .btn-whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); color: #fff; box-shadow: 0 4px 12px rgba(37,211,102,0.4); }
+    .btn-whatsapp-2 { background: linear-gradient(135deg, #4fc3f7, #0288d1); color: #fff; box-shadow: 0 4px 12px rgba(2,136,209,0.4); }
     .btn-action svg { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); flex-shrink: 0; }
 
-    /* ============ BOTÓN MÚSICA ============ */
     .music-toggle {
       position: absolute; top: 15px; left: 15px; z-index: 20;
       width: 42px; height: 42px; border-radius: 50%;
@@ -803,13 +717,10 @@
       box-shadow: 0 3px 10px rgba(236,72,153,0.4);
       font-size: 1.1rem;
       transition: transform 0.2s, box-shadow 0.2s;
-      position: absolute;
     }
     .music-toggle:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(236,72,153,0.6); }
     .music-toggle:active { transform: scale(0.9); }
-    .music-toggle.playing { 
-      animation: musicWave 1.5s infinite ease-in-out;
-    }
+    .music-toggle.playing { animation: musicWave 1.5s infinite ease-in-out; }
     .music-toggle.playing::after {
       content: ''; position: absolute; inset: -3px; border-radius: 50%;
       border: 2px solid #ec4899;
@@ -817,7 +728,6 @@
       pointer-events: none;
     }
 
-    /* ============ OVERLAYS ============ */
     #portal-open-overlay {
       position: fixed; inset: 0; z-index: 2000; pointer-events: none;
       background: radial-gradient(circle, rgba(255,235,59,0.4) 0%, rgba(255,105,180,0.3) 40%, transparent 70%);
@@ -880,11 +790,6 @@
       animation: particleAbsorb 0.8s ease-in forwards;
     }
     .energy-particle.purple { background: #b39ddb; box-shadow: 0 0 15px #b39ddb, 0 0 30px #7e57c2; }
-    
-    .confetti-piece {
-      position: fixed; width: 12px; height: 12px; z-index: 3000; pointer-events: none;
-      animation: confettiFall linear forwards;
-    }
 
     .footer-text { 
       margin-top: 15px; font-size: 0.8rem; color: #9575cd; 
@@ -892,7 +797,6 @@
       animation: revealUp 0.7s ease-out 2.1s both;
     }
     
-    /* ============ ACCESIBILIDAD ============ */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -958,7 +862,7 @@
           <span class="date-label">📅 MARCA TU CALENDARIO</span>
           <span class="date-main">03</span>
           <span class="date-month">de Octubre 2026</span>
-          <span class="date-hour">🕐 3:00 PM hasta que quieras ir</span>
+          <span class="date-hour">🕐 A partir de las 3:00 PM</span>
         </div>
       </div>
 
@@ -1139,7 +1043,6 @@
       iniciarContador();
     });
 
-    /* ============ CONTADOR REGRESIVO CON EFECTO FLIP ============ */
     let ultimosValores = {d: null, h: null, m: null, s: null};
     function iniciarContador() {
       const actualizar = () => {
@@ -1156,17 +1059,10 @@
         const mins = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
         const secs = Math.floor((distancia % (1000 * 60)) / 1000);
         
-        const nuevos = {
-          d: String(dias).padStart(2, '0'),
-          h: String(horas).padStart(2, '0'),
-          m: String(mins).padStart(2, '0'),
-          s: String(secs).padStart(2, '0')
-        };
-        
-        actualizarConFlip('cd-days', 'd', nuevos.d);
-        actualizarConFlip('cd-hours', 'h', nuevos.h);
-        actualizarConFlip('cd-mins', 'm', nuevos.m);
-        actualizarConFlip('cd-secs', 's', nuevos.s);
+        actualizarConFlip('cd-days', 'd', String(dias).padStart(2, '0'));
+        actualizarConFlip('cd-hours', 'h', String(horas).padStart(2, '0'));
+        actualizarConFlip('cd-mins', 'm', String(mins).padStart(2, '0'));
+        actualizarConFlip('cd-secs', 's', String(secs).padStart(2, '0'));
       };
       
       actualizar();
