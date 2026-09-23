@@ -21,7 +21,6 @@
   <meta name="theme-color" content="#2c1b4d">
   
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
-  <!-- ✅ GSAP: Librería de animaciones de alto rendimiento -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   
   <style>
@@ -39,12 +38,10 @@
       padding: 20px;
       position: relative;
       overflow: hidden;
-      /* ✅ Optimización: mejor renderizado */
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
 
-    /* ✅ will-change para animaciones GPU-aceleradas */
     #invitation-card, #start-overlay, #portal-gem, .selectable-gem, 
     .btn-action, .counter-btn, .music-toggle, .btn-start {
       will-change: transform, opacity;
@@ -376,20 +373,105 @@
     .gem-dot.lit-adult { transform: scale(1.2); filter: hue-rotate(180deg) saturate(1.8) drop-shadow(0 0 6px #64b5f6); }
     .gem-dot.lit-kid { transform: scale(1.2); filter: hue-rotate(0deg) saturate(1.8) drop-shadow(0 0 6px #ff80ab); }
     .gem-dot.unlit { opacity: 0.4; filter: grayscale(0.8); }
+    
     .selection-title { font-family: 'Fredoka One', cursive; color: #4a2b86; font-size: 1rem; margin-bottom: 10px; text-align: center; width: 100%; }
-    .selection-row { display: flex; justify-content: center; gap: 25px; width: 100%; margin-bottom: 20px; }
-    .selectable-gem { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.3s ease; position: relative; }
-    .selectable-gem img { width: 80px; height: 80px; object-fit: contain; transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease; filter: grayscale(0.7) brightness(0.7); opacity: 0.6; }
-    .selectable-gem span { font-family: 'Fredoka One', cursive; font-size: 0.85rem; margin-top: 5px; color: #4a2b86; opacity: 0.6; transition: all 0.3s ease; }
-    .selectable-gem.yes.selected img { animation: selectedGlowYes 1.5s infinite ease-in-out; filter: none; opacity: 1; }
-    .selectable-gem.no.selected img { animation: selectedGlowNo 1.5s infinite ease-in-out; filter: hue-rotate(220deg) saturate(1.5) brightness(0.9); opacity: 1; }
+    .selection-row { display: flex; justify-content: center; gap: 25px; width: 100%; margin-bottom: 20px; min-height: 115px; }
+    
+    /* ✅ NUEVO: Wrapper con fondo de respaldo para que la gema SIEMPRE se vea */
+    .selectable-gem { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      cursor: pointer; 
+      transition: transform 0.3s ease; 
+      position: relative;
+      min-width: 80px;
+    }
+    
+    .gem-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      /* ✅ Fondo de respaldo tipo gema (siempre visible) */
+      background: radial-gradient(circle at 35% 30%, 
+        #ffd6ea 0%, 
+        #f48fb1 40%, 
+        #c2185b 100%);
+      box-shadow: 
+        inset 0 0 20px rgba(255,255,255,0.6), 
+        inset 0 -5px 15px rgba(136,14,79,0.3),
+        0 4px 10px rgba(180,150,255,0.3);
+    }
+    .selectable-gem.no .gem-icon-wrapper {
+      background: radial-gradient(circle at 35% 30%, 
+        #d1c4e9 0%, 
+        #9575cd 40%, 
+        #4527a0 100%);
+      box-shadow: 
+        inset 0 0 20px rgba(255,255,255,0.6), 
+        inset 0 -5px 15px rgba(69,39,160,0.3),
+        0 4px 10px rgba(126,87,194,0.3);
+    }
+    
+    .selectable-gem .gem-icon-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+      transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+      filter: grayscale(0.7) brightness(0.7);
+      opacity: 0.75;
+      display: block;
+    }
+    .selectable-gem .gem-icon-wrapper img.img-error {
+      display: none; /* Si falla, solo se ve el fondo de respaldo */
+    }
+    
+    .selectable-gem span { 
+      font-family: 'Fredoka One', cursive; 
+      font-size: 0.85rem; 
+      margin-top: 5px; 
+      color: #4a2b86; 
+      opacity: 0.6; 
+      transition: all 0.3s ease; 
+      text-align: center;
+    }
+    
+    .selectable-gem.yes.selected .gem-icon-wrapper img { 
+      animation: selectedGlowYes 1.5s infinite ease-in-out; 
+      filter: none; 
+      opacity: 1; 
+    }
+    .selectable-gem.no.selected .gem-icon-wrapper img { 
+      animation: selectedGlowNo 1.5s infinite ease-in-out; 
+      filter: hue-rotate(220deg) saturate(1.5) brightness(0.9); 
+      opacity: 1; 
+    }
     .selectable-gem.selected span { opacity: 1; font-size: 1rem; color: #ec4899; }
     .selectable-gem.no.selected span { color: #7e57c2; }
     .selectable-gem:active { transform: scale(0.95); }
     .selectable-gem.selected::after {
-      content: '✓'; position: absolute; font-size: 1.5rem; color: #fff; background: #ec4899;
-      width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-      top: -5px; right: -5px; box-shadow: 0 3px 10px rgba(0,0,0,0.3); animation: popGem 0.3s ease-out;
+      content: '✓'; 
+      position: absolute; 
+      font-size: 1.5rem; 
+      color: #fff; 
+      background: #ec4899;
+      width: 30px; 
+      height: 30px; 
+      border-radius: 50%; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
+      top: -5px; 
+      right: -5px; 
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3); 
+      animation: popGem 0.3s ease-out;
+      z-index: 5;
     }
     .selectable-gem.no.selected::after { background: #7e57c2; }
 
@@ -501,6 +583,7 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .btn-action:active { transform: scale(0.96); }
+    .btn-action svg { flex: 0 0 auto; }
     .btn-calendar {
       background: linear-gradient(135deg, #b39ddb, #7e57c2); color: #fff;
       box-shadow: 0 4px 12px rgba(126,87,194,0.4);
@@ -747,12 +830,17 @@
 
         <div class="selection-title">Selecciona tu gema:</div>
         <div class="selection-row">
+          <!-- ✅ NUEVO: Wrapper con fondo de respaldo para que la gema SIEMPRE se vea -->
           <div class="selectable-gem yes" id="gem-yes" onclick="seleccionarGema('si')">
-            <img src="./imagenes/gema.png" alt="Sí">
+            <div class="gem-icon-wrapper">
+              <img src="./imagenes/gema.png" alt="Sí" loading="eager" onerror="this.classList.add('img-error')">
+            </div>
             <span>¡Sí asistiré!</span>
           </div>
           <div class="selectable-gem no" id="gem-no" onclick="seleccionarGema('no')">
-            <img src="./imagenes/gema.png" alt="No">
+            <div class="gem-icon-wrapper">
+              <img src="./imagenes/gema.png" alt="No" loading="eager" onerror="this.classList.add('img-error')">
+            </div>
             <span>No podré ir</span>
           </div>
         </div>
@@ -786,11 +874,18 @@
         <button class="btn-action btn-calendar" onclick="agregarAlCalendario()">
           📅 Agregar al Calendario
         </button>
+        <!-- ✅ NUEVO: Ícono SVG oficial de WhatsApp en vez del emoji 💬 -->
         <a class="btn-action btn-whatsapp" id="contact-whatsapp-1" href="#" target="_blank">
-          💬 Dudas: 220 242 9084
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Dudas: 220 242 9084
         </a>
         <a class="btn-action btn-whatsapp-2" id="contact-whatsapp-2" href="#" target="_blank">
-          💬 Dudas: 951 150 7558
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Dudas: 951 150 7558
         </a>
       </div>
       
@@ -820,16 +915,13 @@
     let chargeRAF = null;
     let electricInterval = null;
     let countdownInterval = null;
-    let particlesActivas = [];
 
-    /* ✅ FIX: Detener intervalos al salir */
     window.addEventListener('beforeunload', () => {
       if (chargeRAF) cancelAnimationFrame(chargeRAF);
       if (electricInterval) clearInterval(electricInterval);
       if (countdownInterval) clearInterval(countdownInterval);
     });
 
-    /* ✅ FIX: Pausar animaciones cuando la pestaña no está visible */
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         const audio = document.getElementById('bg-music');
@@ -896,10 +988,9 @@
       }
     }
 
-    /* ✅ FIX: Calendario usa las fechas del CONFIG */
     function agregarAlCalendario() {
       const fecha = CONFIG.fechaEvento;
-      const fin = new Date(fecha.getTime() + 9 * 60 * 60 * 1000); // +9 horas
+      const fin = new Date(fecha.getTime() + 9 * 60 * 60 * 1000);
       
       const formatICS = (d) => {
         const pad = n => String(n).padStart(2, '0');
@@ -1023,7 +1114,6 @@
       document.getElementById('gem-yes').classList.remove('selected');
       document.getElementById('gem-no').classList.remove('selected');
       
-      // ✅ GSAP para animación más fluida
       const target = tipo === 'si' ? document.getElementById('gem-yes') : document.getElementById('gem-no');
       target.classList.add('selected');
       
@@ -1070,7 +1160,6 @@
       }
     }
 
-    /* ✅ FIX: Charging con requestAnimationFrame (mucho más fluido) */
     function startCharging() {
       if (animacionEnCurso || isCharging) return;
       
@@ -1109,7 +1198,6 @@
       portalGem.classList.add('charging');
       energyRing.classList.add('active');
       
-      // ✅ GSAP: vibración suave continua
       gsap.to(portalGem, {
         scale: 1.15,
         duration: 0.5,
@@ -1141,7 +1229,6 @@
         }
       }, 80);
       
-      // ✅ Loop con RAF para máxima fluidez
       function animate(now) {
         if (!isCharging) return;
         
@@ -1212,7 +1299,6 @@
       const ringInner = document.getElementById('ring-inner');
       const energyRing = document.getElementById('energy-ring');
       
-      // ✅ GSAP: resetear animaciones
       gsap.killTweensOf(portalGem);
       gsap.to(portalGem, { scale: 1, rotation: 0, duration: 0.3, ease: "power2.out" });
       
@@ -1277,12 +1363,10 @@
       }
     }
 
-    /* ✅ GSAP: Portal de creación más fluido */
     function animacionPortalCreacion() {
       const overlay = document.getElementById('portal-open-overlay');
       overlay.classList.add('active');
       
-      // Anillos expansivos con GSAP
       for (let i = 0; i < 5; i++) {
         const ring = document.createElement('div');
         ring.className = 'portal-creation-ring';
@@ -1327,7 +1411,6 @@
       }, 3500);
     }
 
-    /* ✅ GSAP: Rotura de gema más fluida */
     function animacionRoturaGema() {
       const crackOverlay = document.getElementById('screen-crack-overlay');
       crackOverlay.classList.add('active');
@@ -1352,7 +1435,6 @@
       
       if ('vibrate' in navigator) navigator.vibrate([300, 100, 400]);
       
-      // ✅ GSAP: onda de choque
       setTimeout(() => {
         const shockwave = document.createElement('div');
         shockwave.className = 'shockwave-ring';
@@ -1360,7 +1442,6 @@
         setTimeout(() => shockwave.remove(), 1500);
       }, 600);
       
-      // ✅ GSAP: mitades se separan con easing natural (como gravedad)
       setTimeout(() => {
         gsap.to(leftHalf, {
           x: -250,
@@ -1382,7 +1463,6 @@
         });
       }, 1200);
       
-      // Fragmentos
       setTimeout(() => {
         const clipPaths = [
           'polygon(0% 0%, 50% 0%, 50% 50%, 0% 50%)',
