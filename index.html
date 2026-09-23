@@ -5,9 +5,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>🎂 Cumpleaños 10 de Emir | Una Misión de Cristal</title>
-  <meta property="og:title" content="🎂 Cumpleaños 10 de Emir | Una Misión de Cristal">
-  <meta property="og:description" content="Acompáñanos en esta misión estelar. ¡Confirma tu asistencia!">
-  <meta property="og:image" content="./imagenes/emir.png">
+  
+  <!-- ===== META TAGS PARA WHATSAPP / REDES SOCIALES ===== -->
+  <meta name="description" content="¡Acompáñanos en esta misión estelar! Confirma tu asistencia al cumpleaños 10 de Emir.">
+  
+  <!-- Open Graph (Facebook, WhatsApp, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://amiel4483-svg.github.io/invitacion-emir/">
+  <meta property="og:site_name" content="Cumpleaños 10 de Emir">
+  <meta property="og:title" content="🎂 ¡Cumpleaños 10 de Emir! | Una Misión de Cristal">
+  <meta property="og:description" content="✨ Acompáñanos en esta misión estelar. ¡Confirma tu asistencia! 💎">
+  <meta property="og:image" content="https://amiel4483-svg.github.io/invitacion-emir/imagenes/gema_portal.png?v=1">
+  <meta property="og:image:secure_url" content="https://amiel4483-svg.github.io/invitacion-emir/imagenes/gema_portal.png?v=1">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="Invitación al cumpleaños 10 de Emir - Una Misión de Cristal">
+  <meta property="og:locale" content="es_MX">
+  
+  <!-- Twitter Card (también lo usa WhatsApp en algunos casos) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="🎂 ¡Cumpleaños 10 de Emir! | Una Misión de Cristal">
+  <meta name="twitter:description" content="✨ Acompáñanos en esta misión estelar. ¡Confirma tu asistencia! 💎">
+  <meta name="twitter:image" content="https://amiel4483-svg.github.io/invitacion-emir/imagenes/gema_portal.png?v=1">
+  
+  <!-- Compatibilidad con WhatsApp antiguo -->
+  <meta itemprop="name" content="🎂 ¡Cumpleaños 10 de Emir!">
+  <meta itemprop="description" content="✨ Acompáñanos en esta misión estelar. ¡Confirma tu asistencia! 💎">
+  <meta itemprop="image" content="https://amiel4483-svg.github.io/invitacion-emir/imagenes/gema_portal.png?v=1">
+  
   <meta name="theme-color" content="#2c1b4d">
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
@@ -201,7 +225,6 @@
       pointer-events: none; z-index: 1;
     }
     
-    /* ✅ ESPADA AHORA PEQUEÑA Y DENTRO DE LA TARJETA */
     #sword-on-card {
       position: absolute;
       right: 8px;
@@ -370,24 +393,6 @@
     .electric-spark.purple {
       background: #e1bee7;
       box-shadow: 0 0 12px #fff, 0 0 24px #b39ddb, 0 0 36px #7e57c2;
-    }
-
-    .electric-bolt {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 3px;
-      height: 30px;
-      background: linear-gradient(180deg, #fff 0%, #ffeb3b 50%, transparent 100%);
-      border-radius: 2px;
-      transform-origin: top center;
-      pointer-events: none;
-      z-index: 6;
-      filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 15px #ffeb3b);
-      animation: electricDischarge 0.4s ease-out forwards;
-    }
-    .electric-bolt.purple {
-      background: linear-gradient(180deg, #fff 0%, #b39ddb 50%, transparent 100%);
-      filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 15px #b39ddb);
     }
 
     .lightning-line {
@@ -811,18 +816,21 @@
         return; 
       }
       
-      // ✅ VALIDACIÓN: al menos 1 persona
-      const total = adultos + ninos;
-      if (total === 0) {
-        alert('⚠️ Debes indicar al menos 1 persona (tú o un acompañante).\nUsa los botones + para seleccionar cuántos adultos y niños van.');
-        return;
+      // ✅ VALIDACIONES SOLO SI VA A ASISTIR
+      if (seleccion === 'si') {
+        const total = adultos + ninos;
+        
+        if (total === 0) {
+          alert('⚠️ Si vas a asistir, debes indicar al menos 1 persona.\nUsa los botones + para seleccionar cuántos adultos y niños van.');
+          return;
+        }
+        
+        if (ninos > 0 && adultos === 0) {
+          alert('⚠️ Los niños no pueden ir solos.\nDebes agregar al menos 1 adulto que los acompañe.');
+          return;
+        }
       }
-      
-      // ✅ VALIDACIÓN: niños no van solos
-      if (ninos > 0 && adultos === 0) {
-        alert('⚠️ Los niños no pueden ir solos.\nDebes agregar al menos 1 adulto que los acompañe.');
-        return;
-      }
+      // ✅ Si elige "No podré ir", NO se valida nada de acompañantes.
       
       isCharging = true;
       chargeProgress = 0;
@@ -934,7 +942,6 @@
       animacionEnCurso = true;
       
       const nombre = document.getElementById('nombre').value.trim() || "Sin nombre";
-      // ✅ CONVERSIÓN ESTRICTA PARA EVITAR VALORES VACÍOS
       const adultosNum = Math.max(0, parseInt(adultos, 10) || 0);
       const ninosNum = Math.max(0, parseInt(ninos, 10) || 0);
       const asistira = seleccion === 'si';
