@@ -27,7 +27,7 @@
       overflow: hidden;
     }
 
-    /* ============ ANIMACIONES GENERALES ============ */
+    /* ============ ANIMACIONES ============ */
     @keyframes floaty { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(2deg);} }
     @keyframes floatyReverse { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(-2deg);} }
     @keyframes twinkle { 0%,100%{opacity:.2;} 50%{opacity:.9;} }
@@ -39,13 +39,11 @@
     @keyframes spinPortal { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes spinPortalReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
     
-    /* Gema normal */
     @keyframes portalPulse { 
       0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px #ff69b4); } 
       50% { transform: scale(1.05); filter: drop-shadow(0 0 40px #fff) drop-shadow(0 0 80px #ffeb3b); } 
     }
     
-    /* ⚡ NUEVA: Carga eléctrica con vibración creciente */
     @keyframes gemCharging {
       0% { transform: scale(1) rotate(0deg) translate(0, 0); filter: brightness(1) drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px #ff69b4); }
       10% { transform: scale(1.02) rotate(-2deg) translate(-2px, 1px); filter: brightness(1.3) drop-shadow(0 0 25px #fff) drop-shadow(0 0 50px #ffeb3b); }
@@ -60,14 +58,12 @@
       100% { transform: scale(1.20) rotate(0deg) translate(0, 0); filter: brightness(3.5) drop-shadow(0 0 100px #fff) drop-shadow(0 0 200px #ffeb3b); }
     }
     
-    /* ⚡ NUEVA: Rayo eléctrico que sale disparado */
     @keyframes electricDischarge {
       0% { transform: scale(0.3) rotate(var(--angle)); opacity: 1; }
       30% { transform: scale(1) rotate(var(--angle)); opacity: 1; }
       100% { transform: scale(1.3) rotate(var(--angle)) translateX(80px); opacity: 0; }
     }
     
-    /* ⚡ NUEVA: Chispa estática flotante */
     @keyframes staticSpark {
       0% { transform: scale(0) rotate(0deg); opacity: 0; }
       20% { opacity: 1; }
@@ -90,18 +86,17 @@
       100% { transform: translate(-50%, -50%) scale(5); opacity: 0; border-width: 2px; }
     }
     
-    /* === ROTURA EN ZIGZAG (NO) === */
     @keyframes gemSplitLeftZigzag {
-      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-      15% { transform: translate(-20px, -15px) rotate(-5deg); opacity: 1; }
-      50% { transform: translate(-120px, 30vh) rotate(-45deg); opacity: 0.8; }
-      100% { transform: translate(-250px, 100vh) rotate(-360deg); opacity: 0; }
+      0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
+      15% { transform: translate(calc(-50% - 20px), calc(-50% - 15px)) rotate(-5deg); opacity: 1; }
+      50% { transform: translate(calc(-50% - 120px), 30vh) rotate(-45deg); opacity: 0.8; }
+      100% { transform: translate(calc(-50% - 250px), 100vh) rotate(-360deg); opacity: 0; }
     }
     @keyframes gemSplitRightZigzag {
-      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-      15% { transform: translate(20px, -15px) rotate(5deg); opacity: 1; }
-      50% { transform: translate(120px, 30vh) rotate(45deg); opacity: 0.8; }
-      100% { transform: translate(250px, 100vh) rotate(360deg); opacity: 0; }
+      0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
+      15% { transform: translate(calc(-50% + 20px), calc(-50% - 15px)) rotate(5deg); opacity: 1; }
+      50% { transform: translate(calc(-50% + 120px), 30vh) rotate(45deg); opacity: 0.8; }
+      100% { transform: translate(calc(-50% + 250px), 100vh) rotate(360deg); opacity: 0; }
     }
     
     @keyframes shardFall {
@@ -121,8 +116,8 @@
     }
     
     @keyframes swordSwingVertical {
-      0%, 100% { transform: rotate(90deg) translateX(0); }
-      50% { transform: rotate(90deg) translateX(-10px); }
+      0%, 100% { transform: translateY(-50%) rotate(90deg) translateX(0); }
+      50% { transform: translateY(-50%) rotate(90deg) translateX(-6px); }
     }
 
     @keyframes frameGlow {
@@ -151,7 +146,6 @@
       50% { filter: drop-shadow(0 0 30px #b39ddb) drop-shadow(0 0 50px #7e57c2) brightness(1.5); transform: scale(1.15); }
     }
 
-    /* ⚡ Anillo de energía pulsante durante carga */
     @keyframes energyRingPulse {
       0%, 100% { box-shadow: 0 0 20px rgba(255, 235, 59, 0.6), inset 0 0 20px rgba(255, 235, 59, 0.4); }
       50% { box-shadow: 0 0 50px rgba(255, 235, 59, 1), inset 0 0 50px rgba(255, 235, 59, 0.8); }
@@ -199,20 +193,30 @@
       padding: 25px 20px 30px;
       display: flex; flex-direction: column; align-items: center; text-align: center;
       animation: enterFromBottom 0.8s ease-out forwards, frameGlow 4s ease-in-out infinite;
-      overflow: visible;
+      overflow: hidden;
     }
     #invitation-card::before {
       content: ''; position: absolute; inset: 6px;
       border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 22px;
       pointer-events: none; z-index: 1;
     }
+    
+    /* ✅ ESPADA AHORA PEQUEÑA Y DENTRO DE LA TARJETA */
     #sword-on-card {
-      position: absolute; right: -22px; top: 50%; width: 220px; height: auto;
-      z-index: 15; pointer-events: none; transform-origin: center;
+      position: absolute;
+      right: 8px;
+      top: 42%;
+      width: 60px;
+      height: auto;
+      z-index: 3;
+      pointer-events: none;
       transform: translateY(-50%) rotate(90deg);
+      transform-origin: center;
       animation: swordSwingVertical 4s ease-in-out infinite;
-      filter: drop-shadow(0 8px 15px rgba(60,20,90,0.5));
+      filter: drop-shadow(0 4px 8px rgba(60,20,90,0.4));
+      opacity: 0.85;
     }
+    
     #stage-shield-bg {
       position: absolute; top: 50%; left: 50%; width: 90%; max-width: 340px;
       transform: translate(-50%, -50%); opacity: 0.28; z-index: 0; pointer-events: none;
@@ -320,7 +324,6 @@
       transition: animation-duration 0.3s;
     }
     
-    /* Anillo adicional de energía para carga */
     .portal-energy-ring {
       position: absolute; width: 92%; height: 92%; border-radius: 50%;
       border: 3px solid transparent;
@@ -353,7 +356,6 @@
     }
     #portal-gem.charging { animation: gemCharging 0.5s infinite ease-in-out; }
 
-    /* ⚡ Chispas eléctricas alrededor */
     .electric-spark {
       position: absolute;
       top: 50%; left: 50%;
@@ -370,7 +372,6 @@
       box-shadow: 0 0 12px #fff, 0 0 24px #b39ddb, 0 0 36px #7e57c2;
     }
 
-    /* ⚡ Rayo eléctrico */
     .electric-bolt {
       position: absolute;
       top: 50%; left: 50%;
@@ -389,7 +390,6 @@
       filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 15px #b39ddb);
     }
 
-    /* Línea de rayo en zigzag */
     .lightning-line {
       position: absolute;
       top: 50%; left: 50%;
@@ -471,7 +471,6 @@
     }
     .crack-line.active { animation: crackDraw 1.5s ease-out forwards; }
 
-    /* === GEMA PARTIDA EN ZIGZAG (NO) === */
     .gem-half {
       position: fixed;
       width: 200px; height: 200px;
@@ -482,46 +481,16 @@
       pointer-events: none;
       filter: drop-shadow(0 0 20px #b39ddb) drop-shadow(0 0 40px #7e57c2) brightness(1.5);
     }
-    /* Corte en zigzag para la mitad izquierda */
     .gem-half.left { 
       clip-path: polygon(
-        0% 0%, 
-        45% 0%, 
-        48% 8%, 
-        52% 16%, 
-        47% 24%, 
-        53% 32%, 
-        48% 40%, 
-        54% 48%, 
-        48% 56%, 
-        53% 64%, 
-        47% 72%, 
-        52% 80%, 
-        47% 88%, 
-        52% 96%, 
-        48% 100%, 
-        0% 100%
+        0% 0%, 45% 0%, 48% 8%, 52% 16%, 47% 24%, 53% 32%, 48% 40%, 54% 48%,
+        48% 56%, 53% 64%, 47% 72%, 52% 80%, 47% 88%, 52% 96%, 48% 100%, 0% 100%
       ); 
     }
-    /* Corte en zigzag para la mitad derecha */
     .gem-half.right { 
       clip-path: polygon(
-        45% 0%, 
-        100% 0%, 
-        100% 100%, 
-        48% 100%, 
-        52% 96%, 
-        47% 88%, 
-        52% 80%, 
-        47% 72%, 
-        53% 64%, 
-        48% 56%, 
-        54% 48%, 
-        48% 40%, 
-        53% 32%, 
-        47% 24%, 
-        52% 16%, 
-        48% 8%
+        45% 0%, 100% 0%, 100% 100%, 48% 100%, 52% 96%, 47% 88%, 52% 80%, 47% 72%,
+        53% 64%, 48% 56%, 54% 48%, 48% 40%, 53% 32%, 47% 24%, 52% 16%, 48% 8%
       ); 
     }
     .gem-half.left.break { animation: gemSplitLeftZigzag 4s cubic-bezier(0.4, 0, 0.7, 1) forwards; }
@@ -803,12 +772,10 @@
       portal.addEventListener('touchcancel', stopCharging);
     }
 
-    /* ⚡ CREAR CHISPA ELÉCTRICA */
     function createElectricSpark() {
       const portal = document.getElementById('portal-section');
       const isPurple = seleccion === 'no';
       
-      // Chispa flotante
       const spark = document.createElement('div');
       spark.className = 'electric-spark' + (isPurple ? ' purple' : '');
       
@@ -822,7 +789,6 @@
       portal.appendChild(spark);
       setTimeout(() => spark.remove(), 800);
       
-      // Rayo eléctrico (a veces)
       if (Math.random() < 0.6) {
         const bolt = document.createElement('div');
         bolt.className = 'lightning-line' + (isPurple ? ' purple' : '');
@@ -839,7 +805,24 @@
       
       const nombre = document.getElementById('nombre').value.trim();
       if (!nombre) { alert('Por favor, ingresa tu nombre estelar.'); return; }
-      if (!seleccion) { alert('Por favor, selecciona una gema (¡Sí asistiré! o No podré ir).'); return; }
+      
+      if (!seleccion) { 
+        alert('Por favor, selecciona una gema (¡Sí asistiré! o No podré ir).'); 
+        return; 
+      }
+      
+      // ✅ VALIDACIÓN: al menos 1 persona
+      const total = adultos + ninos;
+      if (total === 0) {
+        alert('⚠️ Debes indicar al menos 1 persona (tú o un acompañante).\nUsa los botones + para seleccionar cuántos adultos y niños van.');
+        return;
+      }
+      
+      // ✅ VALIDACIÓN: niños no van solos
+      if (ninos > 0 && adultos === 0) {
+        alert('⚠️ Los niños no pueden ir solos.\nDebes agregar al menos 1 adulto que los acompañe.');
+        return;
+      }
       
       isCharging = true;
       chargeProgress = 0;
@@ -864,7 +847,6 @@
       const updateInterval = 50;
       const increment = 100 / (CONFIG.chargeTime / updateInterval);
       
-      // Intervalo de chispas eléctricas (más rápidas conforme avanza)
       electricInterval = setInterval(() => {
         const rate = 0.3 + (chargeProgress / 100) * 0.7;
         if (Math.random() < rate) {
@@ -879,14 +861,12 @@
         const offset = 754 - (754 * chargeProgress / 100);
         chargeRing.style.strokeDashoffset = offset;
         
-        // ⚡ ACELERAR ROTACIÓN de los anillos conforme avanza
         const speedFactor = chargeProgress / 100;
-        const outerDuration = 12 - (speedFactor * 10); // 12s a 2s
-        const innerDuration = 8 - (speedFactor * 6.5); // 8s a 1.5s
+        const outerDuration = 12 - (speedFactor * 10);
+        const innerDuration = 8 - (speedFactor * 6.5);
         ringOuter.style.animationDuration = outerDuration + 's';
         ringInner.style.animationDuration = innerDuration + 's';
         
-        // Partículas absorbidas
         if (Math.random() < 0.5) {
           const particle = document.createElement('div');
           particle.className = 'energy-particle' + (seleccion === 'no' ? ' purple' : '');
@@ -909,7 +889,6 @@
           setTimeout(() => particle.remove(), 800);
         }
         
-        // Vibración creciente
         if ('vibrate' in navigator) {
           const intensity = Math.floor(5 + (chargeProgress / 100) * 30);
           if (Math.random() < 0.4) navigator.vibrate(intensity);
@@ -955,8 +934,9 @@
       animacionEnCurso = true;
       
       const nombre = document.getElementById('nombre').value.trim() || "Sin nombre";
-      const adultosNum = Number(adultos) || 0;
-      const ninosNum = Number(ninos) || 0;
+      // ✅ CONVERSIÓN ESTRICTA PARA EVITAR VALORES VACÍOS
+      const adultosNum = Math.max(0, parseInt(adultos, 10) || 0);
+      const ninosNum = Math.max(0, parseInt(ninos, 10) || 0);
       const asistira = seleccion === 'si';
 
       const datosAGuardar = { 
@@ -982,7 +962,7 @@
           headers: { 'Content-Type': 'text/plain' }, 
           body: JSON.stringify(datos) 
         })
-        .then(() => console.log('✅ Datos enviados'))
+        .then(() => console.log('✅ Datos enviados:', datos))
         .catch(err => console.error('❌ Error:', err));
       }
 
@@ -1031,18 +1011,15 @@
       }, 3500);
     }
 
-    /* === ROTURA EN ZIGZAG LENTA (NO) === */
     function animacionRoturaGema() {
       const crackOverlay = document.getElementById('screen-crack-overlay');
       crackOverlay.classList.add('active');
       
       crearGrietasPantalla();
       
-      const portalSection = document.getElementById('portal-section');
       const originalGem = document.getElementById('portal-gem');
       originalGem.style.opacity = '0';
       
-      // Crear dos mitades con corte zigzag
       const leftHalf = document.createElement('img');
       leftHalf.src = './imagenes/gema_portal.png';
       leftHalf.className = 'gem-half left';
@@ -1056,7 +1033,6 @@
       
       if ('vibrate' in navigator) navigator.vibrate([300, 100, 400]);
       
-      // Onda de choque después de 600ms
       setTimeout(() => {
         const shockwave = document.createElement('div');
         shockwave.className = 'shockwave-ring';
@@ -1064,13 +1040,11 @@
         setTimeout(() => shockwave.remove(), 1500);
       }, 600);
       
-      // Las mitades se separan después de 1.2s
       setTimeout(() => {
         leftHalf.classList.add('break');
         rightHalf.classList.add('break');
       }, 1200);
       
-      // Fragmentos cayendo poco a poco
       setTimeout(() => {
         const clipPaths = [
           'polygon(0% 0%, 50% 0%, 50% 50%, 0% 50%)',
